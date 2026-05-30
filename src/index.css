@@ -664,16 +664,48 @@ main {
   color: var(--text-dim);
   font-size: 0.98rem;
 }
+/* Upcoming: stack the "coming soon" pill above the availability line. */
+.release__date--soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+@media (min-width: 800px) {
+  .release__date--soon {
+    align-items: flex-start;
+  }
+}
+.release__date--soon .badge--upcoming {
+  align-self: center;
+}
+@media (min-width: 800px) {
+  .release__date--soon .badge--upcoming {
+    align-self: flex-start;
+  }
+}
+.release__available {
+  color: var(--text-dim);
+}
 
 /* Lyrics — always shown, as a typographic panel. Two columns on wide screens
-   so a long lyric fills the space instead of running as one thin ribbon. */
+   so a long lyric fills the space instead of running as one thin ribbon. The
+   heading sits centered ABOVE the hairline rule, large, as a section marker. */
 .lyrics {
   margin-top: clamp(3rem, 9vw, 6rem);
-  border-top: 1px solid var(--line);
-  padding-top: clamp(1.5rem, 4vw, 2.5rem);
 }
 .lyrics__heading {
-  margin: 0 0 1.5rem;
+  margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
+  padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+  font-family: var(--font-accent);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-shadow: 0 0 30px var(--accent-glow);
 }
 .lyrics__body {
   margin: 0;

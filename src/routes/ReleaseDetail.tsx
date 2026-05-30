@@ -68,13 +68,15 @@ export default function ReleaseDetail({ now = new Date() }: { now?: Date }) {
                 {formatReleaseDate(release.date, locale)}
               </p>
             ) : (
-              <p className="release__date">
+              <p className="release__date release__date--soon">
                 <span className="badge badge--upcoming">
                   {t('releases.upcoming')}
-                </span>{' '}
-                {t('releases.available', {
-                  date: formatReleaseDate(release.date, locale),
-                })}
+                </span>
+                <span className="release__available">
+                  {t('releases.available', {
+                    date: formatReleaseDate(release.date, locale),
+                  })}
+                </span>
               </p>
             )}
 
@@ -91,7 +93,7 @@ export default function ReleaseDetail({ now = new Date() }: { now?: Date }) {
         {release.lyrics && (
           <section className="lyrics" aria-labelledby="lyrics-heading">
             <h2 id="lyrics-heading" className="lyrics__heading">
-              <span className="eyebrow">{t('releases.lyrics')}</span>
+              {t('releases.lyrics')}
             </h2>
             <p className="lyrics__body">{release.lyrics}</p>
           </section>
