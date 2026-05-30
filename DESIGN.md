@@ -105,16 +105,19 @@ small, uppercase, letter-spaced Wallpoet in the accent color; page titles are Al
 - **`prefers-reduced-motion: reduce`** flattens all animation/transition to ~0ms — and the
   tilt's capability check also reads it, so the 3D effect is off entirely (not just slowed).
 
-## Accessibility commitments (non-negotiable)
+## App icon & install (PWA-lite)
 
-- WCAG 2.x AA + 2.2 AA: contrast, semantic landmarks (`header`/`nav`/`main`/`footer`),
-  accessible names, keyboard operability, visible focus, ≥24px (links) / ≥44px (buttons)
-  targets, reduced-motion. Enforced by axe (component + E2E) and Lighthouse.
+- A **Web App Manifest** (`public/site.webmanifest`) makes the site **installable** ("Add to
+  Home screen") — it opens standalone (no browser chrome), with the artist name + a proper
+  icon, charcoal `theme_color`/`background_color` (`--bg`).
+- Icons (the pixel-art guitar, brand orange/red): `favicon.ico` + 16/32 PNGs, a 180px
+  `apple-touch-icon`, and Android 192/512. The 512 art is edge-to-edge on transparent, so the
+  manifest also ships **maskable** 192/512 variants — the guitar centered on a charcoal field
+  inside the ~80% safe zone — so Android's circle/squircle crop never clips it.
 
 ## Open / next
 
 - **Real content**: bio copy, hero tagline, any release/section copy (placeholders for now).
-- **`og:image`**: a real 1200×630 once there's artwork (the open SEO TODO).
 - **More motion/visuals if wanted**: a WebGL/`three.js` or canvas hero treatment, or
   animated grain, can layer on top of this type-first base without changing the system —
   behind the same reduced-motion guard.

@@ -78,6 +78,37 @@ test('serves the og:image and favicon assets', async ({ request }) => {
   expect(ico.ok()).toBeTruthy()
 })
 
+test('serves an installable web manifest with linked icons', async ({
+  page,
+  request,
+}) => {
+  await page.goto('/es')
+  // The document links the manifest and a theme color.
+  await expect(page.locator('link[rel="manifest"]')).toHaveAttribute(
+    'href',
+    '/site.webmanifest',
+  )
+  await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute(
+    'href',
+    '/apple-touch-icon.png',
+  )
+
+  // The manifest itself is valid JSON with the PWA essentials + a maskable icon.
+  const res = await request.get('/site.webmanifest')
+  expect(res.ok()).toBeTruthy()
+  const m = JSON.parse(await res.text())
+  expect(m.name).toBe('Antonio Procesos Heredia')
+  expect(m.display).toBe('standalone')
+  const purposes = m.icons.map((i: { purpose?: string }) => i.purpose)
+  expect(purposes).toContain('maskable')
+
+  // Every icon the manifest references actually resolves.
+  for (const icon of m.icons as Array<{ src: string }>) {
+    const r = await request.get(icon.src)
+    expect(r.ok(), `${icon.src} should be served`).toBeTruthy()
+  }
+})
+
 test('advertises the 1200×630 og:image on home and inner pages', async ({
   page,
 }) => {
