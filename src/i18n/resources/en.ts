@@ -10,7 +10,7 @@ export default {
     eyebrow: 'Generative garden',
     heading: 'Garden of Lilies',
     intro:
-      'A living garden that never repeats. Seed it with your cursor: each lily is born in a flash, grows slowly, bursts into crimson and bleeds out to ash. As it blooms, it casts its seed onto the soil nearby. No goal, no score — just a canvas that breathes at your pace. And if it ever fades to black, the garden revives on its own.',
+      'A living garden that never repeats. Seed it with your cursor: each lily is born in a flash, grows slowly, bursts into crimson and bleeds out to ash. As it blooms, it casts its seed onto the soil nearby. No goal, no score, just a canvas that breathes at your pace. And if it ever fades to black, the garden revives on its own.',
     canvasLabel:
       'Generative canvas: pixel lilies that sprout, bloom and wither over a charcoal field.',
     play: 'Resume',

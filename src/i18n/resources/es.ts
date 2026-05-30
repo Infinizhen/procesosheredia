@@ -10,7 +10,7 @@ export default {
     eyebrow: 'Jardín generativo',
     heading: 'Jardín de Lirios',
     intro:
-      'Un jardín vivo que nunca se repite. Siembra con el cursor: cada lirio nace en un destello, crece despacio, estalla en carmesí y se desangra hasta la ceniza. Cuando florece, propaga su semilla a la tierra vecina. No hay meta ni marcador — solo un lienzo que respira a tu ritmo. Y si todo se apaga, el jardín renace solo.',
+      'Un jardín vivo que nunca se repite. Siembra con el cursor: cada lirio nace en un destello, crece despacio, estalla en carmesí y se desangra hasta la ceniza. Cuando florece, propaga su semilla a la tierra vecina. No hay meta ni marcador, solo un lienzo que respira a tu ritmo. Y si todo se apaga, el jardín renace solo.',
     canvasLabel:
       'Lienzo generativo: lirios de píxeles que brotan, florecen y se marchitan sobre fondo carbón.',
     play: 'Reanudar',
