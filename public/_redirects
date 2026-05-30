@@ -1,0 +1,4 @@
+# SPA fallback (client-side routing). www->apex is handled by a
+# Cloudflare Single Redirect rule (zone level), not here: Pages
+# _redirects does not match on hostname.
+/*  /index.html  200

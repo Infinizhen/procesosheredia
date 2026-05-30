@@ -1,0 +1,7 @@
+# Allow-all. AI crawlers may read, cite, and train (site policy: AI-open).
+# Managed in this repo — Cloudflare's managed robots.txt is disabled; do not
+# reintroduce AI disallows.
+User-agent: *
+Allow: /
+
+Sitemap: https://procesosheredia.com/sitemap.xml
