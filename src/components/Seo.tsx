@@ -2,6 +2,10 @@ import { useLocation, useParams } from 'react-router-dom'
 import { DEFAULT_LOCALE, LOCALES, isLocale } from '../i18n/locales'
 import {
   ARTIST_NAME,
+  OG_IMAGE_ALT,
+  OG_IMAGE_HEIGHT,
+  OG_IMAGE_URL,
+  OG_IMAGE_WIDTH,
   canonicalUrl,
   hreflangAlternates,
   musicGroupJsonLd,
@@ -61,10 +65,15 @@ export default function Seo({ title, description, noindex }: SeoProps) {
       {description && <meta property="og:description" content={description} />}
       <meta property="og:url" content={canonical} />
       <meta property="og:locale" content={LOCALES[locale].ogLocale} />
+      <meta property="og:image" content={OG_IMAGE_URL} />
+      <meta property="og:image:width" content={String(OG_IMAGE_WIDTH)} />
+      <meta property="og:image:height" content={String(OG_IMAGE_HEIGHT)} />
+      <meta property="og:image:alt" content={OG_IMAGE_ALT} />
 
-      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       {description && <meta name="twitter:description" content={description} />}
+      <meta name="twitter:image" content={OG_IMAGE_URL} />
 
       <script
         type="application/ld+json"

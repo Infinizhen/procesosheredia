@@ -60,3 +60,22 @@ test('canonical URL is per-locale', async ({ page }) => {
     'https://procesosheredia.com/en/bio',
   )
 })
+
+test('serves the og:image and favicon assets', async ({ request }) => {
+  const og = await request.get('/og.png')
+  expect(og.ok()).toBeTruthy()
+  expect(og.headers()['content-type']).toMatch(/^image\/png/)
+
+  const ico = await request.get('/favicon.ico')
+  expect(ico.ok()).toBeTruthy()
+
+  const svg = await request.get('/favicon.svg')
+  expect(svg.ok()).toBeTruthy()
+})
+
+test('home advertises the 1200×630 og:image', async ({ page }) => {
+  await page.goto('/es')
+  await expect(
+    page.locator('head meta[property="og:image"]').first(),
+  ).toHaveAttribute('content', 'https://procesosheredia.com/og.png')
+})

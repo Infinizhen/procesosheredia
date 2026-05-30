@@ -11,6 +11,15 @@ export const SITE_URL = 'https://procesosheredia.com'
 /** The artist's name — used as the brand and in structured data. */
 export const ARTIST_NAME = 'Antonio Procesos Heredia'
 
+/**
+ * Open Graph / Twitter share image — self-hosted and language-neutral, sized to
+ * the 1200×630 (1.91:1) social-card ratio. Served from `public/og.png`.
+ */
+export const OG_IMAGE_URL = `${SITE_URL}/og.png`
+export const OG_IMAGE_WIDTH = 1200
+export const OG_IMAGE_HEIGHT = 630
+export const OG_IMAGE_ALT = ARTIST_NAME
+
 /** The artist's Spotify id, used for the profile link and the embedded player. */
 export const SPOTIFY_ARTIST_ID = '4f8EtuWyQnq2T8NyZeJ0vn'
 

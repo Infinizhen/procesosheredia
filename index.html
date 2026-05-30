@@ -2,17 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!--
       Default fallback metadata for crawlers that do NOT execute JavaScript —
       chiefly social-media link scrapers (Facebook, X, WhatsApp), which read the
       Open Graph tags below. JS-capable crawlers (e.g. Googlebot) instead receive
-      richer, per-language metadata injected at runtime by <Seo> (React 19
-      document metadata): the localized title, meta description, canonical +
-      hreflang and MusicGroup JSON-LD. The meta description is deliberately left
-      to <Seo> so a single, correct-language description is served per page.
+      richer, per-language metadata injected at runtime by Seo (React 19 document
+      metadata): meta description, canonical + hreflang and MusicGroup JSON-LD.
+      The meta description is left to Seo.
+
+      The title element below is the single canonical one — kept for valid HTML
+      and a sensible default before JS loads / for no-JS clients. Seo updates it
+      per page in place (document.title), so a second one is never added.
     -->
     <title>Antonio Procesos Heredia — Official site</title>
 
@@ -25,7 +28,12 @@
     />
     <meta property="og:url" content="https://procesosheredia.com/" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content="https://procesosheredia.com/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Antonio Procesos Heredia" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://procesosheredia.com/og.png" />
   </head>
   <body>
     <div id="root"></div>

@@ -77,8 +77,19 @@ describe('Seo', () => {
         'https://procesosheredia.com/es/bio',
       )
       expect(meta('meta[property="og:locale"]')).toBe('es_ES')
-      expect(meta('meta[name="twitter:card"]')).toBe('summary')
+      expect(meta('meta[property="og:image"]')).toBe(
+        'https://procesosheredia.com/og.png',
+      )
+      expect(meta('meta[property="og:image:width"]')).toBe('1200')
+      expect(meta('meta[property="og:image:height"]')).toBe('630')
+      expect(meta('meta[property="og:image:alt"]')).toBe(
+        'Antonio Procesos Heredia',
+      )
+      expect(meta('meta[name="twitter:card"]')).toBe('summary_large_image')
       expect(meta('meta[name="twitter:title"]')).toBe('My Title')
+      expect(meta('meta[name="twitter:image"]')).toBe(
+        'https://procesosheredia.com/og.png',
+      )
     })
   })
 
