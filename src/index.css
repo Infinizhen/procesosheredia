@@ -1070,12 +1070,20 @@ main {
   line-height: 1.7;
 }
 
-/* The stage is the positioning context for the floating bar + meters. */
+/* The stage is the positioning context for the floating bar + meters. On narrow
+   screens it stacks (canvas, then the in-flow control bar below). */
 .garden__stage {
   position: relative;
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+@media (min-width: 640px) {
+  .garden__stage {
+    flex-direction: row;
+    justify-content: center;
+  }
 }
 .garden__canvas {
   display: block;
@@ -1124,27 +1132,35 @@ main {
   font-variant-numeric: tabular-nums;
 }
 
-/* Floating control bar: video-player style, centered on the bottom edge. */
+/* Control bar. On narrow screens it sits BELOW the canvas (in flow), so it
+   never covers a small portrait canvas. From 640px up it becomes the floating,
+   video-player-style bar centered on the canvas's bottom edge. */
 .garden__bar {
-  position: absolute;
-  left: 50%;
-  bottom: 0.85rem;
-  transform: translateX(-50%);
+  margin-top: 0.85rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  max-width: calc(100% - 1.5rem);
   padding: 0.4rem;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: color-mix(in srgb, var(--bg) 70%, transparent);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 40px -16px rgba(0, 0, 0, 0.7);
 }
 .garden__fs {
   margin-left: 0.2rem;
+}
+@media (min-width: 640px) {
+  .garden__bar {
+    position: absolute;
+    left: 50%;
+    bottom: 0.85rem;
+    transform: translateX(-50%);
+    margin-top: 0;
+    max-width: calc(100% - 1.5rem);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px -16px rgba(0, 0, 0, 0.7);
+  }
 }
 
 /* Square icon button. */

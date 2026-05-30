@@ -205,10 +205,13 @@ export function useGarden(): UseGardenReturn {
     const canvas = canvasRef.current
     if (!container || !canvas) return
     const w = container.clientWidth
-    // In fullscreen the stage fills the viewport; otherwise it's a capped band.
+    // Fullscreen fills the viewport. Otherwise it's a band whose aspect adapts:
+    // a tall-ish canvas on narrow/portrait screens (so it isn't a thin strip),
+    // a wide one on desktop. Always height-capped so the footer stays reachable.
+    const aspect = w < 640 ? 1.1 : 0.52
     const h = document.fullscreenElement
       ? container.clientHeight
-      : Math.min(Math.round(w * 0.52), 460)
+      : Math.min(Math.round(w * aspect), 520)
     const cols = Math.max(8, Math.floor(w / CELL_PX))
     const rows = Math.max(8, Math.floor(h / CELL_PX))
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
