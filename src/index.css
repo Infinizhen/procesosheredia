@@ -1141,14 +1141,19 @@ main {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  padding: 0.4rem;
+  gap: 0.25rem;
+  padding: 0.3rem;
+  /* max-content so it tries to lay out on ONE line, capped to the viewport so
+     it only wraps when it truly can't fit. A moderate radius reads as a capsule
+     on one line and a tidy rounded rect if it ever wraps (never a fat oval). */
+  width: max-content;
+  max-width: calc(100% - 1rem);
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 22px;
   background: color-mix(in srgb, var(--bg) 70%, transparent);
 }
 .garden__fs {
-  margin-left: 0.2rem;
+  margin-left: 0.1rem;
 }
 @media (min-width: 640px) {
   .garden__bar {
@@ -1157,19 +1162,23 @@ main {
     bottom: 0.85rem;
     transform: translateX(-50%);
     margin-top: 0;
+    gap: 0.4rem;
+    padding: 0.4rem;
     max-width: calc(100% - 1.5rem);
+    border-radius: 999px;
     backdrop-filter: blur(10px);
     box-shadow: 0 10px 40px -16px rgba(0, 0, 0, 0.7);
   }
 }
 
-/* Square icon button. */
+/* Square icon button. Compact on mobile so the whole bar fits on one line;
+   roomier from 640px up. */
 .iconbtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border: 1px solid transparent;
   border-radius: 999px;
   background: transparent;
@@ -1181,6 +1190,12 @@ main {
     background-color 0.18s ease,
     transform 0.18s ease;
 }
+@media (min-width: 640px) {
+  .iconbtn {
+    width: 40px;
+    height: 40px;
+  }
+}
 .iconbtn:hover {
   color: var(--text-hi);
   background: var(--bg-2);
@@ -1190,31 +1205,44 @@ main {
   color: var(--accent);
 }
 
-/* Speed control: a compact segmented group of chips inside the bar. */
+/* Speed control: a compact segmented group of chips inside the bar. On mobile
+   the bordered wrapper is dropped (chips sit flush) to save the width needed to
+   keep the whole bar on one row. */
 .garden__speed {
   display: inline-flex;
-  gap: 0.2rem;
-  padding: 0.2rem;
-  margin-inline: 0.15rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
+  gap: 0;
 }
 .chip {
-  min-width: 34px;
-  min-height: 32px;
-  padding: 0.25rem 0.55rem;
+  min-width: 26px;
+  min-height: 30px;
+  padding: 0.2rem 0.25rem;
   border: 1px solid transparent;
   border-radius: 999px;
   background: transparent;
   color: var(--text-dim);
   font-family: var(--font-accent);
-  font-size: 0.72rem;
+  font-size: 0.64rem;
   font-variant-numeric: tabular-nums;
   cursor: pointer;
   transition:
     color 0.18s ease,
     border-color 0.18s ease,
     background-color 0.18s ease;
+}
+@media (min-width: 640px) {
+  .garden__speed {
+    gap: 0.2rem;
+    padding: 0.2rem;
+    margin-inline: 0.15rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+  }
+  .chip {
+    min-width: 34px;
+    min-height: 32px;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.72rem;
+  }
 }
 .chip:hover {
   color: var(--text-hi);
@@ -1230,7 +1258,7 @@ main {
 .garden__stage.is-fullscreen {
   width: 100vw;
   height: 100vh;
-  background: var(--bg);
+  justify-content: center;
   align-items: center;
 }
 .garden__stage.is-fullscreen .garden__canvas {
@@ -1238,12 +1266,28 @@ main {
   border-radius: 0;
   box-shadow: none;
 }
+/* CRITICAL: in fullscreen the bar must FLOAT over the canvas at EVERY width —
+   including mobile, where there's no ESC key. If it stayed in normal flow (the
+   mobile default) it would be pushed off the 100vh canvas and the user would be
+   trapped with no way out. So we force the floating layout here regardless of
+   the 640px breakpoint. */
 .garden__stage.is-fullscreen .garden__bar {
+  position: absolute;
+  left: 50%;
   bottom: 1.5rem;
+  transform: translateX(-50%);
+  margin-top: 0;
+  max-width: calc(100% - 1.5rem);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 40px -16px rgba(0, 0, 0, 0.7);
 }
-.garden__stage.is-fullscreen .iconbtn {
-  width: 48px;
-  height: 48px;
+/* Bigger touch targets in fullscreen — but only where there's room (desktop).
+   On mobile they stay compact so the whole bar still fits on one line. */
+@media (min-width: 640px) {
+  .garden__stage.is-fullscreen .iconbtn {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 .garden__note {
