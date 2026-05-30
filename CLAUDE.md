@@ -125,8 +125,8 @@ Secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`.
 ## Internationalization (i18n)
 
 - Trilingual: **es-ES**, **en-US**, **ja** (`react-i18next`; strings in `src/i18n/resources/`).
-- URLs are **prefixed**: `/es`, `/en`, `/ja` (+ `/es/bio`, …). Bare `/` autodetects the
-  visitor's language and redirects; **fallback is English** (`/en`).
+- URLs are **prefixed**: `/es`, `/en`, `/ja` (+ `/es/releases`, `/es/releases/:slug`, `/es/bio`,
+  …). Bare `/` autodetects the visitor's language and redirects; **fallback is English** (`/en`).
 - Per-page `<html lang>`, accessible language switcher with `hreflang`, language driven by the
   URL — see `src/routes/LangLayout.tsx`, `src/routes/RootRedirect.tsx`, `src/i18n/`.
 
@@ -145,13 +145,23 @@ generated `sitemap.xml`, allow-all `robots.txt`), the **dark / charcoal / brutal
 Spotify/Instagram/TikTok + bot-protected email + flag language switcher), and the **legal**
 Privacy & Cookies page (`src/routes/Privacy.tsx`, content in `src/content/legal.ts`).
 
-**Current state:** the header nav is intentionally **hidden** (visitors stay on home; routes
-still work via URL). Home is the artist name + the Spotify player. Bio and the hero tagline
-have **no real copy yet** (placeholders were removed).
+**Current state (release-driven):** the **header nav is back** (Inicio · Lanzamientos ·
+Biografía). **Home `/`** is a promo landing for the current **featured release** — a two-column
+feature (cover + eyebrow + title + tagline + album Spotify facade player), compact so the footer
+stays reachable on desktop. **`/releases`** is a "track-select" stage: numbered, reactive cover
+tiles (released ones open a detail page; upcoming ones render as a desaturated "locked" tile).
+**`/releases/:slug`** is the per-release page (large cover, date/kind, album player, collapsible
+**lyrics**). **`/bio`** is what Home used to be (artist name hero + artist player) — still a
+**placeholder** awaiting real copy (plan: when the bio is written, that layout becomes the bio).
+Releases are a **single source of truth in `src/lib/releases.ts`** (slug, title, date,
+`spotifyAlbumId|null`, cover, kind, `featured`, optional `lyrics`); covers in `public/covers/`
+(optimized ~1000px). The **`og:image`** (`public/og.png`, 1200×630) ships and is advertised
+site-wide.
 
-**Next:** real content — the artist **bio**, a **hero tagline/eyebrow** (the `music.heading`
-Wallpoet eyebrow is kept in i18n for when it returns), release info — and a real 1200×630
-**`og:image`** (none is advertised yet; then point `index.html` + `<Seo>` at it).
+**Next:** real **bio** copy; the Spotify **album id for "El increíble viaje de Paquita"** once it
+ships (2026-06-05) — set `spotifyAlbumId` in `releases.ts` and its player lights up; further
+releases are just new array entries. A **hero tagline/eyebrow** (`music.heading` Wallpoet eyebrow
+kept in i18n) if the home concept changes again.
 
 **Key decisions:** SSG dropped (React 19 metadata is enough; Google renders JS). AI **fully
 OPEN** (allow-all robots; do not re-enable Cloudflare's managed robots.txt). No

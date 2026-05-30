@@ -72,7 +72,18 @@ small, uppercase, letter-spaced Wallpoet in the accent color; page titles are Al
 - **Email** — opens the mail client; the address is assembled only on click
   (`src/lib/contact.ts`) so it never appears in the DOM/HTML (anti-harvest).
 - **Spotify** — a privacy-friendly **facade**: the cookie-setting iframe loads only on
-  click, keeping the initial page cookie-free and fast.
+  click, keeping the initial page cookie-free and fast. Reusable for the artist profile
+  or a specific **album** (`<SpotifyEmbed type="album" id=… />`).
+- **Home feature** — the current featured release as a **two-column** block on desktop
+  (cover ↔ eyebrow + title + tagline + album player), stacked + centered on mobile. Sized
+  so the footer stays reachable without dead space or needless scroll.
+- **Releases "stage"** — a track-select grid of square cover **tiles**, numbered (`01`, `02`,
+  …) like a level select. Each tile reacts on **hover and keyboard focus** (lift, cover zoom,
+  a scrim + CTA reveal). Upcoming releases render as a **"locked" tile** — desaturated art,
+  dashed accent frame, a "coming soon" badge. All reveals are CSS-only and collapse cleanly
+  under `prefers-reduced-motion`.
+- **Release detail** — a large cover + info hero, the album player, and **lyrics** in a
+  native `<details>` disclosure (keyboard-operable for free, `+`/`–` affordance).
 
 ## Motion
 
