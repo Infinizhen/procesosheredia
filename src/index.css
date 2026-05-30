@@ -1045,6 +1045,198 @@ main {
   box-shadow: 0 8px 24px -8px var(--accent-glow);
 }
 
+/* ----- Garden (generative canvas game) ---------------------------------- */
+
+/* Wider than a normal page so the garden can stretch across the frame. */
+.garden.page {
+  max-width: 1280px;
+  text-align: center;
+}
+.garden__head {
+  margin-bottom: clamp(1.25rem, 3vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.garden__head h1 {
+  margin: 0;
+}
+/* Intro: noticeably wider than the old narrow lead (was ~46ch). */
+.garden__intro {
+  margin: 0;
+  max-width: 68ch;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+/* The stage is the positioning context for the floating bar + meters. */
+.garden__stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.garden__canvas {
+  display: block;
+  /* Exact pixel width/height are set by the hook (cols×CELL_PX) to fill the
+     container; cap to 100% as a guard against overflow. */
+  max-width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 24px 80px -32px var(--accent-glow);
+  cursor: crosshair;
+  touch-action: none; /* let pointer-drag paint instead of scrolling */
+}
+
+/* Live meters: pinned, unobtrusive, top-left over the canvas. */
+.garden__meters {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  margin: 0;
+  display: flex;
+  gap: 1.25rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+.garden__meter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.garden__meter dt {
+  font-family: var(--font-accent);
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.garden__meter dd {
+  margin: 0;
+  min-width: 4ch;
+  font-family: var(--font-accent);
+  font-size: 0.95rem;
+  color: var(--text-hi);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Floating control bar: video-player style, centered on the bottom edge. */
+.garden__bar {
+  position: absolute;
+  left: 50%;
+  bottom: 0.85rem;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  max-width: calc(100% - 1.5rem);
+  padding: 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 40px -16px rgba(0, 0, 0, 0.7);
+}
+.garden__fs {
+  margin-left: 0.2rem;
+}
+
+/* Square icon button. */
+.iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    transform 0.18s ease;
+}
+.iconbtn:hover {
+  color: var(--text-hi);
+  background: var(--bg-2);
+  transform: translateY(-1px);
+}
+.iconbtn[aria-pressed='true'] {
+  color: var(--accent);
+}
+
+/* Speed control: a compact segmented group of chips inside the bar. */
+.garden__speed {
+  display: inline-flex;
+  gap: 0.2rem;
+  padding: 0.2rem;
+  margin-inline: 0.15rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.chip {
+  min-width: 34px;
+  min-height: 32px;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-dim);
+  font-family: var(--font-accent);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background-color 0.18s ease;
+}
+.chip:hover {
+  color: var(--text-hi);
+  background: var(--bg-2);
+}
+.chip.is-active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--bg-2);
+}
+
+/* Fullscreen: the stage fills the viewport; canvas centered on charcoal. */
+.garden__stage.is-fullscreen {
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg);
+  align-items: center;
+}
+.garden__stage.is-fullscreen .garden__canvas {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+.garden__stage.is-fullscreen .garden__bar {
+  bottom: 1.5rem;
+}
+.garden__stage.is-fullscreen .iconbtn {
+  width: 48px;
+  height: 48px;
+}
+
+.garden__note {
+  margin: 1rem auto 0;
+  max-width: 60ch;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
 /* ----- Motion ----------------------------------------------------------- */
 
 @media (prefers-reduced-motion: no-preference) {

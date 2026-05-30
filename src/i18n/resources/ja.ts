@@ -3,7 +3,27 @@ export default {
     home: 'ホーム',
     releases: 'リリース',
     bio: '略歴',
+    garden: '庭',
     label: 'メイン',
+  },
+  garden: {
+    eyebrow: 'ジェネラティブな庭',
+    heading: '百合の庭',
+    intro:
+      '二度と同じ姿にならない、生きた庭。カーソルで種をまくと、百合は一瞬のきらめきとともに生まれ、ゆっくりと育ち、深紅に弾け、灰へと滲んでいきます。花が咲くと、その種を隣の土へ放ちます。目的も得点もなく、ただあなたのペースで呼吸するキャンバス。すべてが消えても、庭はひとりでに蘇ります。',
+    canvasLabel:
+      'ジェネラティブなキャンバス：チャコールの背景に、芽吹き、咲き、枯れていくピクセルの百合。',
+    play: '再開',
+    pause: '一時停止',
+    scatter: 'ランダムに種をまく',
+    clear: 'クリア',
+    generationLabel: '世代',
+    livingLabel: '生存',
+    speedLabel: 'シミュレーション速度',
+    fullscreen: '全画面表示',
+    exitFullscreen: '全画面表示を終了',
+    reducedMotion:
+      '視差効果を減らす設定では、庭は静止画で表示されます。「ランダムに種をまく」で新しい画面を生成します。',
   },
   bio: { heading: '略歴' },
   notFound: { heading: '404', message: 'ページが見つかりません。' },
@@ -59,5 +79,6 @@ export default {
         'Antonio Procesos Heredia の略歴：その歩みと音楽作品について。',
     },
     notFound: { title: 'ページが見つかりません — Antonio Procesos Heredia' },
+    garden: { title: '百合の庭 — Antonio Procesos Heredia' },
   },
 }

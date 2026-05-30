@@ -39,6 +39,26 @@ test('the bio page shows the artist hero placeholder', async ({ page }) => {
   ).toBeVisible()
 })
 
+test('the garden game loads with a canvas and live controls', async ({
+  page,
+}) => {
+  const errors: string[] = []
+  page.on('pageerror', (err) => errors.push(err.message))
+
+  await page.goto('/es')
+  await page.getByRole('link', { name: 'Jardín', exact: true }).click()
+  await expect(page).toHaveURL(/\/es\/garden$/)
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Jardín de Lirios' }),
+  ).toBeVisible()
+  // The canvas is exposed as an image with an accessible name.
+  await expect(page.getByRole('img', { name: /lirios/i })).toBeVisible()
+  // Controls work: scatter + clear are present and clickable.
+  await expect(page.getByRole('button', { name: 'Limpiar' })).toBeVisible()
+  await page.getByRole('button', { name: 'Sembrar al azar' }).click()
+  expect(errors).toEqual([])
+})
+
 test('flag switcher changes language', async ({ page }) => {
   await page.goto('/es')
   await expect(

@@ -146,7 +146,7 @@ Spotify/Instagram/TikTok + bot-protected email + flag language switcher), and th
 Privacy & Cookies page (`src/routes/Privacy.tsx`, content in `src/content/legal.ts`).
 
 **Current state (release-driven):** the **header nav is back** (Inicio · Lanzamientos ·
-Biografía). **Home `/`** is a promo landing for the current **featured release** — a two-column
+Biografía · Jardín). **Home `/`** is a promo landing for the current **featured release** — a two-column
 feature (cover + eyebrow + title + tagline + album Spotify facade player), compact so the footer
 stays reachable on desktop. **`/releases`** is a wide "track-select" stage: numbered cover tiles
 that **tilt in 3D toward the pointer** (`TiltCover` + `useTilt`); released ones open a detail
@@ -160,12 +160,22 @@ songs beside the selected song's lyrics, arrow-key nav; lyric-less tracks are ta
 Releases are a **single source of truth in `src/lib/releases.ts`** (slug, title, date,
 `spotifyAlbumId|null`, cover, kind, `featured`, and **either** `lyrics` for a single **or**
 `tracks: {title, lyrics?}[]` for an EP/album); covers in `public/covers/` (optimized ~1000px).
-The **`og:image`** (`public/og.png`, 1200×630) ships and is advertised site-wide.
+The **`og:image`** (`public/og.png`, 1200×630) ships and is advertised site-wide. The site is
+**installable (PWA-lite)**: a `site.webmanifest` + full icon set (incl. maskable Android icons),
+so "Add to Home screen" opens it standalone with the pixel-guitar icon.
+
+**`/garden`** is a **zen generative toy** — a canvas of pixel "lilies" with continuous-age colour
+(white→crimson→ash), a self-sustaining cellular automaton with an anti-crowding brake, a floating
+icon control bar (play/pause · scatter · clear · `0.5/1/2/4×` speed · fullscreen), live meters,
+and a real **fullscreen** mode (grid re-sized to resolution). It's the **only** canvas in the
+site; `noindex`; reduced-motion shows a static frame. Logic is a pure, unit-tested automaton in
+`src/lib/garden.ts` (state in `useGarden` + `TiltCover`-style progressive enhancement). "Clear"
+deliberately leaves the garden **dormant** (won't auto-revive) until the user plants — so the
+button reads as a real clear, not a glitch.
 
 **Next:** real **bio** copy; the Spotify **album id for "El increíble viaje de Paquita"** once it
 ships (2026-06-05) — set `spotifyAlbumId` in `releases.ts` and its player lights up; further
-releases are just new array entries. A **hero tagline/eyebrow** (`music.heading` Wallpoet eyebrow
-kept in i18n) if the home concept changes again.
+releases are just new array entries.
 
 **Key decisions:** SSG dropped (React 19 metadata is enough; Google renders JS). AI **fully
 OPEN** (allow-all robots; do not re-enable Cloudflare's managed robots.txt). No

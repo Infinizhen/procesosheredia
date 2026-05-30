@@ -9,6 +9,7 @@ for (const path of [
   '/es/releases/lirios-del-apocalipsis',
   '/es/releases/el-increible-viaje-de-paquita',
   '/es/bio',
+  '/es/garden',
   '/es/privacy',
 ]) {
   test(`no WCAG A/AA a11y violations on ${path}`, async ({ page }) => {

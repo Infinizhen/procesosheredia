@@ -3,7 +3,27 @@ export default {
     home: 'Inicio',
     releases: 'Lanzamientos',
     bio: 'Biografía',
+    garden: 'Jardín',
     label: 'Principal',
+  },
+  garden: {
+    eyebrow: 'Jardín generativo',
+    heading: 'Jardín de Lirios',
+    intro:
+      'Un jardín vivo que nunca se repite. Siembra con el cursor: cada lirio nace en un destello, crece despacio, estalla en carmesí y se desangra hasta la ceniza. Cuando florece, propaga su semilla a la tierra vecina. No hay meta ni marcador — solo un lienzo que respira a tu ritmo. Y si todo se apaga, el jardín renace solo.',
+    canvasLabel:
+      'Lienzo generativo: lirios de píxeles que brotan, florecen y se marchitan sobre fondo carbón.',
+    play: 'Reanudar',
+    pause: 'Pausar',
+    scatter: 'Sembrar al azar',
+    clear: 'Limpiar',
+    generationLabel: 'Generación',
+    livingLabel: 'Con vida',
+    speedLabel: 'Velocidad de la simulación',
+    fullscreen: 'Pantalla completa',
+    exitFullscreen: 'Salir de pantalla completa',
+    reducedMotion:
+      'Con movimiento reducido activado, el jardín se muestra fijo. «Sembrar al azar» genera un cuadro nuevo.',
   },
   bio: { heading: 'Biografía' },
   notFound: { heading: '404', message: 'Página no encontrada.' },
@@ -59,5 +79,6 @@ export default {
         'Biografía de Antonio Procesos Heredia: su trayectoria y su obra musical.',
     },
     notFound: { title: 'Página no encontrada — Antonio Procesos Heredia' },
+    garden: { title: 'Jardín de Lirios — Antonio Procesos Heredia' },
   },
 }

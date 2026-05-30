@@ -94,6 +94,18 @@ small, uppercase, letter-spaced Wallpoet in the accent color; page titles are Al
   `perspective` + `rotateX/Y`) and a cursor-tracking glare. Pure progressive enhancement: it
   engages only for a fine, hovering pointer (mouse, not touch) with motion allowed, and is a
   flat image otherwise. It never gates content or focus; the surrounding link stays operable.
+- **Garden (`/garden`)** — a zen generative toy: a `<canvas>` of pixel "lilies", each an
+  organism with a **continuous age** (0→1) whose colour is a true gradient — a near-white birth
+  spark, warming through pink to an **explosive crimson bloom**, then bleeding to dried-maroon and
+  ash. Non-uniform phase speeds (fast birth, slow growth, explosive bleed, slow drip) give it a
+  heartbeat; a per-frame fade veil makes deaths dissolve, not snap. A discrete spread step lets
+  blooms seed neighbours, with an **anti-crowding brake** so it self-sustains without saturating.
+  Controls are a **floating, video-player-style bar** over the canvas (icon buttons: play/pause ·
+  scatter · clear · a `0.5/1/2/4×` speed segmented control · fullscreen), with live Generation /
+  Alive meters pinned in a corner (compact-formatted, fixed width). **Fullscreen** fills the
+  viewport with a grid re-sized to the resolution (ESC or the button exits). It's the one place
+  that uses canvas; everything else stays DOM-light, and it's `noindex`. See `useGarden` +
+  `src/lib/garden.ts` (pure, unit-tested automaton).
 
 ## Motion
 
@@ -102,6 +114,9 @@ small, uppercase, letter-spaced Wallpoet in the accent color; page titles are Al
 - One-time **hero entrance** (rise + fade) on load.
 - **3D cover tilt** on releases (`TiltCover`): covers rotate toward the pointer with a soft
   glare. JS-gated to mouse input + motion-allowed; disabled on touch and reduced-motion.
+- **Generative garden** (`/garden`): a continuously-aged canvas automaton (see Components). Under
+  reduced-motion it doesn't animate — it paints a single static generated frame and the loop never
+  runs.
 - **`prefers-reduced-motion: reduce`** flattens all animation/transition to ~0ms — and the
   tilt's capability check also reads it, so the 3D effect is off entirely (not just slowed).
 

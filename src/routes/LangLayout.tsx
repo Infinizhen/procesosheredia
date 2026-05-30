@@ -53,6 +53,14 @@ export default function LangLayout() {
           >
             {t('nav.bio')}
           </NavLink>
+          <NavLink
+            to={`/${lang}/garden`}
+            className={({ isActive }) =>
+              isActive ? 'site-nav__link is-active' : 'site-nav__link'
+            }
+          >
+            {t('nav.garden')}
+          </NavLink>
         </nav>
         <LanguageSwitcher />
       </header>

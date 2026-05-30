@@ -30,3 +30,4 @@ test-results
 playwright/.cache
 .playwright-mcp
 .lighthouseci
+.shots
