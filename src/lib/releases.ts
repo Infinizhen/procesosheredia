@@ -141,6 +141,16 @@ export function releasesByDateDesc(): Release[] {
   return [...RELEASES].sort((a, b) => b.date.localeCompare(a.date))
 }
 
+/**
+ * Chronological "track number" for a slug: the oldest release is 01, counting
+ * up by date. Stable regardless of display order, so the home, the stage grid
+ * and the detail page all show the same number for a given release.
+ */
+export function trackNumber(slug: string): number {
+  const chrono = [...RELEASES].sort((a, b) => a.date.localeCompare(b.date))
+  return chrono.findIndex((r) => r.slug === slug) + 1
+}
+
 /** Whether a release's announced date is on or before `now`. */
 export function isReleased(release: Release, now: Date): boolean {
   // Compare date-only (UTC midnight) so a release counts from its calendar day.

@@ -360,8 +360,12 @@ main {
 
 /* ----- Releases: "track-select" stage ----------------------------------- */
 
-.releases {
+/* `.page` (a narrow 60ch text column) comes later in the file and would
+   otherwise cap this; the stage is a wide grid, so override it explicitly. */
+.releases.page {
   max-width: 1040px;
+}
+.releases {
   text-align: center;
 }
 .releases__head {
@@ -397,8 +401,12 @@ main {
   color: inherit;
 }
 
-/* The art "stage": cover + number + reveal overlay */
-.tile__art {
+/* ----- 3D tilt cover (shared: stage tiles + detail hero) ---------------- */
+
+.tilt {
+  perspective: 900px;
+}
+.tilt__plane {
   position: relative;
   display: block;
   aspect-ratio: 1 / 1;
@@ -407,12 +415,20 @@ main {
   border: 1px solid var(--line);
   background: var(--bg-1);
   isolation: isolate;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition:
-    transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
     border-color 0.25s ease,
     box-shadow 0.25s ease;
 }
-.tile__art img {
+.tilt.is-tilting .tilt__plane {
+  transition:
+    transform 0.08s linear,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.tilt__plane img {
   display: block;
   width: 100%;
   height: 100%;
@@ -420,6 +436,32 @@ main {
   transition:
     transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
     filter 0.25s ease;
+}
+.tilt__plane--dim img {
+  filter: grayscale(0.7) brightness(0.68) contrast(1.05);
+}
+/* Glare: a soft highlight that follows the pointer, only while tilting. */
+.tilt__glare {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    36% 36% at var(--gx, 50%) var(--gy, 50%),
+    rgba(255, 255, 255, 0.28),
+    transparent 60%
+  );
+  mix-blend-mode: soft-light;
+  transition: opacity 0.25s ease;
+}
+.tilt.is-tilting .tilt__glare {
+  opacity: 1;
+}
+
+/* The stage tile's art is a tilt wrapper; keep the old hooks working. */
+.tile__art {
+  display: block;
 }
 .tile__num {
   position: absolute;
@@ -466,15 +508,15 @@ main {
     opacity 0.25s ease;
 }
 
-/* Reveal on hover OR keyboard focus (a11y) */
-.tile__link:hover .tile__art,
-.tile__link:focus-visible .tile__art {
-  transform: translateY(-4px);
+/* Reveal on hover OR keyboard focus (a11y). The plane may also carry a
+   pointer-driven rotateX/Y; these only change border/shadow + child layers. */
+.tile__link:hover .tilt__plane,
+.tile__link:focus-visible .tilt__plane {
   border-color: var(--accent);
   box-shadow: 0 26px 70px -26px var(--accent-glow);
 }
-.tile__link:hover .tile__art img,
-.tile__link:focus-visible .tile__art img {
+.tile__link:hover .tilt__plane img,
+.tile__link:focus-visible .tilt__plane img {
   transform: scale(1.06);
 }
 .tile__link:hover .tile__scrim,
@@ -488,16 +530,13 @@ main {
   transform: translateY(0);
 }
 
-/* Upcoming tile reads as a "locked" level: desaturated, accent-dashed frame */
-.tile--soon .tile__art {
+/* Upcoming tile reads as a "locked" level: dashed accent-ish frame */
+.tile--soon .tilt__plane {
   border-style: dashed;
   border-color: var(--line-2);
 }
-.tile--soon .tile__art img {
-  filter: grayscale(0.7) brightness(0.7) contrast(1.05);
-}
-.tile--soon .tile__link:hover .tile__art img,
-.tile--soon .tile__link:focus-visible .tile__art img {
+.tile--soon .tile__link:hover .tilt__plane img,
+.tile--soon .tile__link:focus-visible .tilt__plane img {
   filter: grayscale(0.25) brightness(0.85);
 }
 
@@ -537,14 +576,16 @@ main {
   border: 1px solid var(--accent);
 }
 
-/* ----- Release detail --------------------------------------------------- */
+/* ----- Release detail (wide, brutalist, breathing) ---------------------- */
 
-.release {
-  max-width: 920px;
+/* Overrides the narrow text-page `.page` max-width: the detail is a wide,
+   full-bleed-within-the-frame layout, not a reading column. */
+.release.page {
+  max-width: none;
 }
 .release__back {
   display: inline-block;
-  margin-bottom: clamp(1.25rem, 4vw, 2rem);
+  margin-bottom: clamp(1.5rem, 5vw, 3rem);
   font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -554,100 +595,99 @@ main {
 .release__back:hover {
   color: var(--accent);
 }
+
 .release__hero {
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
   align-items: center;
-  gap: clamp(1.5rem, 4vw, 3rem);
+  gap: clamp(2rem, 6vw, 4.5rem);
   text-align: center;
 }
-@media (min-width: 720px) {
+@media (min-width: 800px) {
   .release__hero {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: start;
+    /* Cover column is the larger one; the info column has its own max-width. */
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: center;
     text-align: left;
   }
 }
+
+/* Cover: a large tilting plane. On mobile it's a bounded square; on desktop it
+   fills its (wider) column, so it never overflows onto the title. */
 .release__art {
-  width: min(80vw, 400px);
+  width: min(86vw, 440px);
   max-width: 100%;
-  border-radius: 14px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  box-shadow: 0 24px 80px -28px var(--accent-glow);
 }
-@media (min-width: 720px) {
+@media (min-width: 800px) {
   .release__art {
     width: 100%;
   }
 }
-.release__art img {
-  display: block;
-  width: 100%;
-  height: auto;
+.release__art .tilt__plane {
+  border-radius: 16px;
+  box-shadow: 0 32px 90px -30px var(--accent-glow);
 }
-.release__art--soon img {
-  filter: grayscale(0.7) brightness(0.7) contrast(1.05);
+.release__track {
+  position: absolute;
+  left: 0.85rem;
+  bottom: 0.6rem;
+  z-index: 4;
+  margin: 0;
+  font-family: var(--font-accent);
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  line-height: 1;
+  color: var(--text-hi);
+  mix-blend-mode: difference;
+  pointer-events: none;
 }
+
 .release__info {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.9rem;
+  gap: clamp(0.9rem, 2vw, 1.4rem);
+  max-width: 38ch;
 }
-@media (min-width: 720px) {
+@media (min-width: 800px) {
   .release__info {
     align-items: flex-start;
   }
 }
 .release__info h1 {
   margin: 0;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.04;
 }
 .release__date {
   margin: 0;
   color: var(--text-dim);
-  font-size: 0.95rem;
+  font-size: 0.98rem;
 }
 
-/* Lyrics — accessible native disclosure */
+/* Lyrics — always shown, as a typographic panel. Two columns on wide screens
+   so a long lyric fills the space instead of running as one thin ribbon. */
 .lyrics {
-  margin-top: clamp(2rem, 6vw, 3.5rem);
+  margin-top: clamp(3rem, 9vw, 6rem);
   border-top: 1px solid var(--line);
-  padding-top: 1.25rem;
+  padding-top: clamp(1.5rem, 4vw, 2.5rem);
 }
-.lyrics__toggle {
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-accent);
-  font-size: 0.8rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
-  list-style: none;
-  padding: 0.4rem 0;
-}
-.lyrics__toggle::-webkit-details-marker {
-  display: none;
-}
-.lyrics__toggle::before {
-  content: '+';
-  font-family: var(--font-sans);
-  font-size: 1.1rem;
-  line-height: 1;
-}
-.lyrics[open] .lyrics__toggle::before {
-  content: '–';
+.lyrics__heading {
+  margin: 0 0 1.5rem;
 }
 .lyrics__body {
-  margin: 1rem 0 0;
-  max-width: 46ch;
+  margin: 0;
   white-space: pre-line;
-  line-height: 1.8;
+  line-height: 1.85;
   color: var(--text);
-  font-size: 1.02rem;
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
+  text-wrap: pretty;
+}
+@media (min-width: 800px) {
+  .lyrics__body {
+    columns: 2;
+    column-gap: clamp(2.5rem, 6vw, 5rem);
+  }
 }
 
 /* ----- Spotify (facade + player) ---------------------------------------- */

@@ -54,12 +54,21 @@ describe('ReleaseDetail', () => {
     expect(screen.queryByRole('button', { name: /spotify/i })).toBeNull()
   })
 
-  it('shows lyrics when the release has them', () => {
-    renderDetail('lirios-del-apocalipsis', new Date('2026-05-30'))
+  it('shows lyrics up-front (not hidden behind a disclosure)', () => {
+    const { container } = renderDetail(
+      'lirios-del-apocalipsis',
+      new Date('2026-05-30'),
+    )
     expect(
       screen.getByRole('heading', { name: /Lirios del apocalipsis/i }),
     ).toBeInTheDocument()
+    // Lyrics text is rendered directly, under a "Letra" section heading…
     expect(screen.getByText(/Cae la ciudad pero el aire/)).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /letra/i, level: 2 }),
+    ).toBeInTheDocument()
+    // …and NOT tucked inside a <details>/<summary> disclosure.
+    expect(container.querySelector('details')).toBeNull()
   })
 
   it('renders a 404 heading for an unknown slug', () => {

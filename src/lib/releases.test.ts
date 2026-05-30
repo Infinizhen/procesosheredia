@@ -9,6 +9,7 @@ import {
   spotifyAlbumEmbedUrl,
   formatReleaseDate,
   releaseJsonLd,
+  trackNumber,
 } from './releases'
 
 describe('releases data', () => {
@@ -110,6 +111,12 @@ describe('releases data', () => {
   it('omits the Spotify URL in JSON-LD when no album id is known', () => {
     const paquita = getReleaseBySlug('el-increible-viaje-de-paquita')!
     expect(releaseJsonLd(paquita).url).toBeUndefined()
+  })
+
+  it('numbers releases chronologically (oldest = 1)', () => {
+    expect(trackNumber('permiteme-intentarlo')).toBe(1) // 2026-05-07
+    expect(trackNumber('lirios-del-apocalipsis')).toBe(2) // 2026-05-29
+    expect(trackNumber('el-increible-viaje-de-paquita')).toBe(3) // 2026-06-05
   })
 
   it('carries lyrics for the released singles', () => {

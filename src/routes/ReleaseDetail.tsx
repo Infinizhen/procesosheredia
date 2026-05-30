@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
 import Seo from '../components/Seo'
 import SpotifyEmbed from '../components/SpotifyEmbed'
+import TiltCover from '../components/TiltCover'
 import NotFound from './NotFound'
 import { DEFAULT_LOCALE, isLocale } from '../i18n/locales'
 import { ARTIST_NAME } from '../lib/seo'
@@ -10,11 +11,12 @@ import {
   getReleaseBySlug,
   isReleased,
   releaseJsonLd,
+  trackNumber,
 } from '../lib/releases'
 
 /**
- * A single release page: a large cover "stage", title/kind/date, the album's
- * Spotify player (once out) or an "upcoming" state, and collapsible lyrics.
+ * A single release page: a wide, brutalist hero (a large tilting cover beside a
+ * big title block) and, below, the lyrics laid out in full — no disclosure.
  * Unknown slugs render 404.
  */
 export default function ReleaseDetail({ now = new Date() }: { now?: Date }) {
@@ -28,6 +30,7 @@ export default function ReleaseDetail({ now = new Date() }: { now?: Date }) {
   }
 
   const out = isReleased(release, now)
+  const num = String(trackNumber(release.slug)).padStart(2, '0')
 
   return (
     <>
@@ -41,15 +44,17 @@ export default function ReleaseDetail({ now = new Date() }: { now?: Date }) {
           ← {t('releases.backToReleases')}
         </Link>
 
-        <div className="release__hero">
-          <div className={`release__art ${out ? '' : 'release__art--soon'}`}>
-            <img
-              src={release.cover}
-              alt={t('releases.coverAlt', { title: release.title })}
-              width="1000"
-              height="1000"
-            />
-          </div>
+        <section className="release__hero">
+          <TiltCover
+            className="release__art"
+            src={release.cover}
+            alt={t('releases.coverAlt', { title: release.title })}
+            dim={!out}
+          >
+            <span className="release__track" aria-hidden="true">
+              {num}
+            </span>
+          </TiltCover>
 
           <div className="release__info">
             <p className="eyebrow eyebrow--lg">
@@ -81,13 +86,15 @@ export default function ReleaseDetail({ now = new Date() }: { now?: Date }) {
               />
             )}
           </div>
-        </div>
+        </section>
 
         {release.lyrics && (
-          <details className="lyrics">
-            <summary className="lyrics__toggle">{t('releases.lyrics')}</summary>
+          <section className="lyrics" aria-labelledby="lyrics-heading">
+            <h2 id="lyrics-heading" className="lyrics__heading">
+              <span className="eyebrow">{t('releases.lyrics')}</span>
+            </h2>
             <p className="lyrics__body">{release.lyrics}</p>
-          </details>
+          </section>
         )}
       </main>
     </>

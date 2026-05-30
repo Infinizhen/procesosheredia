@@ -148,10 +148,12 @@ Privacy & Cookies page (`src/routes/Privacy.tsx`, content in `src/content/legal.
 **Current state (release-driven):** the **header nav is back** (Inicio · Lanzamientos ·
 Biografía). **Home `/`** is a promo landing for the current **featured release** — a two-column
 feature (cover + eyebrow + title + tagline + album Spotify facade player), compact so the footer
-stays reachable on desktop. **`/releases`** is a "track-select" stage: numbered, reactive cover
-tiles (released ones open a detail page; upcoming ones render as a desaturated "locked" tile).
-**`/releases/:slug`** is the per-release page (large cover, date/kind, album player, collapsible
-**lyrics**). **`/bio`** is what Home used to be (artist name hero + artist player) — still a
+stays reachable on desktop. **`/releases`** is a wide "track-select" stage: numbered cover tiles
+that **tilt in 3D toward the pointer** (`TiltCover` + `useTilt`); released ones open a detail
+page, upcoming ones render as a desaturated "locked" tile. **`/releases/:slug`** is the
+per-release page — a **wide, brutalist hero** (large tilting cover + big title block + album
+player) with the **lyrics shown in full** below (two-column on desktop; not behind a disclosure).
+**`/bio`** is what Home used to be (artist name hero + artist player) — still a
 **placeholder** awaiting real copy (plan: when the bio is written, that layout becomes the bio).
 Releases are a **single source of truth in `src/lib/releases.ts`** (slug, title, date,
 `spotifyAlbumId|null`, cover, kind, `featured`, optional `lyrics`); covers in `public/covers/`

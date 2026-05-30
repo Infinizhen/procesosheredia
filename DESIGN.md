@@ -77,20 +77,28 @@ small, uppercase, letter-spaced Wallpoet in the accent color; page titles are Al
 - **Home feature** — the current featured release as a **two-column** block on desktop
   (cover ↔ eyebrow + title + tagline + album player), stacked + centered on mobile. Sized
   so the footer stays reachable without dead space or needless scroll.
-- **Releases "stage"** — a track-select grid of square cover **tiles**, numbered (`01`, `02`,
-  …) like a level select. Each tile reacts on **hover and keyboard focus** (lift, cover zoom,
-  a scrim + CTA reveal). Upcoming releases render as a **"locked" tile** — desaturated art,
-  dashed accent frame, a "coming soon" badge. All reveals are CSS-only and collapse cleanly
-  under `prefers-reduced-motion`.
-- **Release detail** — a large cover + info hero, the album player, and **lyrics** in a
-  native `<details>` disclosure (keyboard-operable for free, `+`/`–` affordance).
+- **Releases "stage"** — a wide track-select **grid** of square cover **tiles**, numbered
+  (`01`, `02`, …) like a level select. Tiles **tilt in 3D toward the pointer** (`TiltCover`,
+  see Motion) and reveal a scrim + CTA on hover/focus. Upcoming releases render as a **"locked"
+  tile** — desaturated art, dashed frame, a "coming soon" badge.
+- **Release detail** — a **wide, breathing** brutalist layout (not a narrow reading column):
+  a large 3D-tilting cover with the track number beside a big title block + album player, then
+  the **lyrics shown in full** below (a two-column type panel on desktop) — deliberately **not**
+  hidden behind a disclosure, so the words are part of the page.
+- **`TiltCover`** — a cover image with a decorative pointer-following **3D tilt** (real
+  `perspective` + `rotateX/Y`) and a cursor-tracking glare. Pure progressive enhancement: it
+  engages only for a fine, hovering pointer (mouse, not touch) with motion allowed, and is a
+  flat image otherwise. It never gates content or focus; the surrounding link stays operable.
 
 ## Motion
 
 - Micro-interactions: nav underline grows on hover/active; social icons lift; the Spotify
   facade glows; links/controls show a 2px accent **focus ring** (`:focus-visible`).
 - One-time **hero entrance** (rise + fade) on load.
-- **`prefers-reduced-motion: reduce`** flattens all animation/transition to ~0ms.
+- **3D cover tilt** on releases (`TiltCover`): covers rotate toward the pointer with a soft
+  glare. JS-gated to mouse input + motion-allowed; disabled on touch and reduced-motion.
+- **`prefers-reduced-motion: reduce`** flattens all animation/transition to ~0ms — and the
+  tilt's capability check also reads it, so the 3D effect is off entirely (not just slowed).
 
 ## Accessibility commitments (non-negotiable)
 
