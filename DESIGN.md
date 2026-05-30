@@ -59,15 +59,18 @@ small, uppercase, letter-spaced Wallpoet in the accent color; page titles are Al
 - A centered, **hairline-framed column** (`max-width: 1080px`, `border-inline`) — the
   brutalist "frame".
 - **Sticky header**: brand (name, Aguafina) · nav (uppercase sans, animated underline) ·
-  language switcher (flag + name).
-- **Footer**: social icon links · email · credit, separated by a top hairline.
+  language switcher (flag only; the language name is the `visually-hidden` accessible label).
+  On phones it collapses to **two rows** — brand + switcher share the top row, the nav drops to
+  its own full-width row below.
+- **Footer**: social icon links · email · credit, separated by a top hairline. On phones it
+  collapses to **two rows** — social + email together, the credit/legal line centered below.
 - Generous, fluid spacing via `clamp()`; mobile-first, wraps gracefully (verified at 390px).
 
 ## Components
 
 - **Language switcher** — flag (decorative SVG, `aria-hidden`) + the language name (the
   accessible label); active locale marked with `aria-current` and a chip outline.
-- **Social links** — Instagram / X / TikTok as icon links, each with an accessible name
+- **Social links** — Spotify / Instagram / TikTok as icon links, each with an accessible name
   ("Instagram (opens in a new tab)"), `rel="noopener noreferrer"`, ≥44px targets.
 - **Email** — opens the mail client; the address is assembled only on click
   (`src/lib/contact.ts`) so it never appears in the DOM/HTML (anti-harvest).
@@ -102,10 +105,13 @@ small, uppercase, letter-spaced Wallpoet in the accent color; page titles are Al
   blooms seed neighbours, with an **anti-crowding brake** so it self-sustains without saturating.
   Controls are a **floating, video-player-style bar** over the canvas (icon buttons: play/pause ·
   scatter · clear · a `0.5/1/2/4×` speed segmented control · fullscreen), with live Generation /
-  Alive meters pinned in a corner (compact-formatted, fixed width). **Fullscreen** fills the
-  viewport with a grid re-sized to the resolution (ESC or the button exits). It's the one place
-  that uses canvas; everything else stays DOM-light, and it's `noindex`. See `useGarden` +
-  `src/lib/garden.ts` (pure, unit-tested automaton).
+  Alive meters pinned in a corner (compact-formatted, fixed width). On phones the bar drops below
+  the canvas (so it never covers a small portrait canvas) and stays one row from ~360px up —
+  except in **fullscreen**, where it always floats so the exit control is reachable (mobile has no
+  ESC). Fullscreen fills the viewport with a grid re-sized to the resolution (ESC or the button
+  exits). "Clear" leaves the garden **dormant** until you plant, so it reads as a real clear (no
+  spontaneous auto-revive). It's the one place that uses canvas; everything else stays DOM-light,
+  and it's `noindex`. See `useGarden` + `src/lib/garden.ts` (pure, unit-tested automaton).
 
 ## Motion
 
