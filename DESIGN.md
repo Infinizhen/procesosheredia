@@ -83,8 +83,13 @@ small, uppercase, letter-spaced Wallpoet in the accent color; page titles are Al
   tile** — desaturated art, dashed frame, a "coming soon" badge.
 - **Release detail** — a **wide, breathing** brutalist layout (not a narrow reading column):
   a large 3D-tilting cover with the track number beside a big title block + album player, then
-  the **lyrics shown in full** below (a two-column type panel on desktop) — deliberately **not**
-  hidden behind a disclosure, so the words are part of the page.
+  the words below under a big centered **LETRA** marker. A **single** shows its lyrics in full
+  (a two-column type panel on desktop); an **EP/album** shows a `Tracklist` instead. Either way
+  the words are part of the page, never behind a disclosure.
+- **`Tracklist`** (EP/album) — a "track select": a numbered vertical list of songs beside the
+  selected song's lyrics. It's an ARIA **tablist** (roving tabindex, arrow/Home/End keys), so
+  it's fully keyboard-operable; tracks with no lyrics are tagged **instrumental** and show a
+  short note instead. Stacks list-over-lyrics on mobile.
 - **`TiltCover`** — a cover image with a decorative pointer-following **3D tilt** (real
   `perspective` + `rotateX/Y`) and a cursor-tracking glare. Pure progressive enhancement: it
   engages only for a fine, hovering pointer (mouse, not touch) with motion allowed, and is a

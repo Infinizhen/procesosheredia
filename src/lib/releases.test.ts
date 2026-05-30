@@ -10,6 +10,7 @@ import {
   formatReleaseDate,
   releaseJsonLd,
   trackNumber,
+  trackCount,
 } from './releases'
 
 describe('releases data', () => {
@@ -23,6 +24,12 @@ describe('releases data', () => {
       expect(
         r.spotifyAlbumId === null || /^[A-Za-z0-9]+$/.test(r.spotifyAlbumId),
       ).toBe(true)
+      expect(['single', 'ep', 'album']).toContain(r.kind)
+      // A release carries song lyrics one way or the other, never both.
+      expect(r.lyrics !== undefined && r.tracks !== undefined).toBe(false)
+      for (const tr of r.tracks ?? []) {
+        expect(tr.title.length).toBeGreaterThan(0)
+      }
     }
   })
 
@@ -126,5 +133,46 @@ describe('releases data', () => {
     expect(getReleaseBySlug('permiteme-intentarlo')!.lyrics).toMatch(
       /permíteme intentarlo/i,
     )
+  })
+
+  it('models Paquita as a 5-track EP, one of them instrumental', () => {
+    const paquita = getReleaseBySlug('el-increible-viaje-de-paquita')!
+    expect(paquita.kind).toBe('ep')
+    expect(paquita.lyrics).toBeUndefined()
+    expect(trackCount(paquita)).toBe(5)
+    expect(paquita.tracks!.map((t) => t.title)).toEqual([
+      'Conciliación Familiar',
+      'Quejíos',
+      'Reyertas',
+      'Ishtar',
+      'Señal privá de la primavera',
+    ])
+    // Reyertas is the instrumental — no lyrics.
+    expect(paquita.tracks![2].lyrics).toBeUndefined()
+    expect(paquita.tracks![0].lyrics).toMatch(/Bailando Keipop/)
+  })
+
+  it('trackCount is 1 for a single', () => {
+    expect(trackCount(getReleaseBySlug('lirios-del-apocalipsis')!)).toBe(1)
+  })
+
+  it('adds numTracks + a track list to EP JSON-LD', () => {
+    const data = releaseJsonLd(
+      getReleaseBySlug('el-increible-viaje-de-paquita')!,
+    )
+    expect(data.numTracks).toBe(5)
+    const track = data.track as Array<Record<string, unknown>>
+    expect(track).toHaveLength(5)
+    expect(track[0]).toMatchObject({
+      '@type': 'MusicRecording',
+      position: 1,
+      name: 'Conciliación Familiar',
+    })
+  })
+
+  it('omits track data from single JSON-LD', () => {
+    const data = releaseJsonLd(getReleaseBySlug('lirios-del-apocalipsis')!)
+    expect(data.numTracks).toBeUndefined()
+    expect(data.track).toBeUndefined()
   })
 })

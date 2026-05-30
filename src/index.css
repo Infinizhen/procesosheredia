@@ -722,6 +722,125 @@ main {
   }
 }
 
+/* ----- Tracklist (EP/album "track select") ------------------------------ */
+
+.tracklist {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+}
+@media (min-width: 800px) {
+  .tracklist {
+    grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
+  }
+}
+
+/* Left: the numbered list of songs (a vertical tablist). */
+.tracklist__tabs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.tracklist__tab {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: none;
+  text-align: left;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+.tracklist__tab:hover {
+  color: var(--text-hi);
+  background: var(--bg-1);
+  transform: translateX(3px);
+}
+.tracklist__tab.is-active {
+  color: var(--text-hi);
+  background: var(--bg-1);
+  border-color: var(--line-2);
+}
+.tracklist__num {
+  flex: none;
+  font-family: var(--font-accent);
+  font-size: 0.95rem;
+  color: var(--accent);
+  opacity: 0.55;
+  transition: opacity 0.18s ease;
+}
+.tracklist__tab.is-active .tracklist__num,
+.tracklist__tab:hover .tracklist__num {
+  opacity: 1;
+}
+.tracklist__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  line-height: 1.25;
+}
+.tracklist__tag {
+  margin-left: auto;
+  align-self: center;
+  font-family: var(--font-accent);
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  padding: 2px 7px;
+  white-space: nowrap;
+}
+
+/* Right: the selected song's lyrics. */
+.tracklist__panel {
+  min-width: 0;
+}
+.tracklist__panel:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+.tracklist__title {
+  margin: 0 0 1.25rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  color: var(--text-hi);
+  line-height: 1.1;
+}
+.tracklist__lyrics {
+  margin: 0;
+  white-space: pre-line;
+  line-height: 1.85;
+  color: var(--text);
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
+  text-wrap: pretty;
+}
+.tracklist__instrumental {
+  margin: 0;
+  color: var(--text-dim);
+  font-style: italic;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tracklist__lyrics,
+  .tracklist__instrumental,
+  .tracklist__title {
+    animation: rise-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+}
+
 /* ----- Spotify (facade + player) ---------------------------------------- */
 
 .spotify-facade {

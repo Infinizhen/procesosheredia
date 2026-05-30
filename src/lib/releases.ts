@@ -9,6 +9,14 @@ import { ARTIST_NAME, SITE_URL } from './seo'
  * `open.spotify.com/album/<id>` URL, ignoring any `?si=` share token), or
  * `null` when there is no published album page yet.
  */
+/** One track of a multi-song release. No `lyrics` ⇒ an instrumental. */
+export interface Track {
+  /** Track title (language-neutral). */
+  title: string
+  /** Lyrics (verbatim), or omitted for an instrumental track. */
+  lyrics?: string
+}
+
 export interface Release {
   /** URL-safe identifier used in `/releases/:slug`. */
   slug: string
@@ -24,8 +32,13 @@ export interface Release {
   kind: 'single' | 'ep' | 'album'
   /** The one release promoted on the home page. Exactly one should be true. */
   featured: boolean
-  /** Optional lyrics (verbatim, language-neutral), shown on the detail page. */
+  /**
+   * Lyrics for a single (verbatim). For multi-song releases use `tracks`
+   * instead; a release should set at most one of `lyrics` / `tracks`.
+   */
   lyrics?: string
+  /** Track list for an EP/album, each track optionally with its own lyrics. */
+  tracks?: Track[]
 }
 
 /**
@@ -121,8 +134,176 @@ Goteando de sangre, les crece otro brote, los mece la brisa.`,
     date: '2026-06-05',
     spotifyAlbumId: null,
     cover: '/covers/el-increible-viaje-de-paquita.jpg',
-    kind: 'single',
+    kind: 'ep',
     featured: false,
+    tracks: [
+      {
+        title: 'Conciliación Familiar',
+        lyrics: `Nacida pa ser aidol,
+pero tenía que ayudar a mi familia con el campo.
+Nacida pa ser aidol,
+pero tenía que ayudaaaaaaaar.
+
+A la virgen del reinicio doy las gracias
+porque tengo una familia generada
+por un glitch procedural.
+Puedo pasarme, y es que de hecho
+ya me paso todo el día,
+pero en serio, todo el día,
+bailando sin parar.
+
+Bailando Keipop,
+bailando Keipop.
+Bailando Keipop,
+mi familia baila Keipop.
+Bailando Keipop,
+bailando Keipop.
+
+Bailando Keipop,
+bailando Keipop.
+Bailando Keipop,
+mi familia baila Keipop,
+mi familia baila Keipop.
+Bailando Keipop,
+bailando Keipop.
+
+Te-te-tengo una familia
+generada por un glitch procedural.
+A la vir-generativa del reinicio,
+todo el día, todo el día, todo el día,
+bailando Keipop sin parar.
+
+Bailando Keipop sin parar.
+
+Bai-lan-do qué?`,
+      },
+      {
+        title: 'Quejíos',
+        lyrics: `Asustao por un segundo,
+el cuerpo se congela
+por el asco que me da el verte la cara
+y tus ojeras.
+Un láser desde el carro de caballos la ilumina,
+el tiempo del espacio se separa
+y ya no puedo más.
+
+Ay, qué angustia das.
+Ponte un antifaz,
+que eres más feo que pegarle a un padre
+y encima tienes pinta de ser capaz.
+
+Quisiera correr pero no puedo,
+el demonio que contraté
+pa la parálisis del miedo
+quiere que escuche su mixtape.
+
+Gírate, surmano, mírate,
+que eres más feo que una nevera por detrás,
+más pesao que Joseba el de Carglass
+y con tó lo que he vomitao
+no me queda más.
+
+Cualquiera corre solo
+por no volverte a ver.
+Buscando callejones sibilinos pa perderte,
+esquivo el carro de naranjas,
+quiebro la esquina
+y me vuelve a aparecer.
+
+Quisiera correr pero no puedo,
+el demonio que contraté
+pa la parálisis del miedo
+quiere que escuche su mixtape.
+
+Quisiera correr pero no puedo,
+el demonio que contraté
+pa la parálisis del miedo
+quiere que escuche su mixtape.`,
+      },
+      {
+        title: 'Reyertas',
+      },
+      {
+        title: 'Ishtar',
+        lyrics: `Arrebatao de entre mis sueños,
+una visión de calma y sosiego.
+Intento alcanzarla, no puedo,
+y me revuelvo para caer luego.
+
+Si al gritarte que te quiero
+me falta el aliento y salgo a por ti,
+las fuerzas me abandonan
+y te alejas en un bucle sin fin.
+
+Energías infinitas,
+terremotos incontables,
+el planeta retumbaba a tus pies
+y tú lo sabes.
+
+Se me nieblan los recuerdos y te pierdo.
+Te juro que no quiero,
+pero es cierto.
+
+Si al gritarte que te quiero
+me falta el aliento y salgo a por ti,
+las fuerzas me abandonan
+y te alejas en un bucle sin fin.
+
+Si al buscarte no te encuentro,
+desfallezco y me sorprendo
+pensando que aún estás junto a mí.
+
+Imaginando que aún estás aquí.
+Que aún estás aquí.
+
+Si al gritarte que te quiero
+me falta el aliento y salgo a por ti,
+las fuerzas me abandonan
+y te alejas en un bucle sin fin.`,
+      },
+      {
+        title: 'Señal privá de la primavera',
+        lyrics: `Pensaba yo en la antena vieja allá en la era,
+sintonías en frecuencia,
+recibiendo la señal privá de la primavera,
+recibiendo la señal privá de la primavera.
+
+Ay, qué pena tan callá,
+que ni el viento la consuela,
+se me borran los recuerdos
+cuando cambia la marea.
+
+El trigo ya no responde, el río no se estremece,
+los molinos giran juntos,
+y en el viento se mezclan los sentidos al pasar,
+y en el viento se mezclan los sentidos al pasar.
+
+Ay, qué pena tan callá,
+que ni el viento la consuela,
+se me borran los recuerdos
+cuando cambias de cadena.
+
+De noche sube la luna, triste y de cera,
+drones que iluminan los jazmines,
+los reflejos del dolor dibujan sombras que esperan afuera,
+sombras que persisten aunque tus ojos me iluminen.
+
+Ay, qué pena tan callá,
+que ni el viento la consuela,
+se me borran los recuerdos
+cuando fuerzan las banderas.
+
+Antena, faro del campo, tu ritmo en otro tempo,
+ya no suenas ni respondes,
+solo guardas en tus textos la memoria de otros tiempos,
+la memoria de otros tiempos.
+
+Ay, qué pena tan callá,
+que ni el viento la consuela,
+se me borran los recuerdos
+cuando cambia la marea.`,
+      },
+    ],
   },
 ]
 
@@ -178,20 +359,37 @@ export function formatReleaseDate(iso: string, locale: LocaleCode): string {
   }).format(new Date(`${iso}T00:00:00Z`))
 }
 
+/** Number of songs in a release: a track list if present, else 1 (a single). */
+export function trackCount(release: Release): number {
+  return release.tracks?.length ?? 1
+}
+
 /** schema.org `MusicAlbum` for a release, linked to the artist entity. */
 export function releaseJsonLd(release: Release): Record<string, unknown> {
+  const artist = {
+    '@type': 'MusicGroup',
+    '@id': `${SITE_URL}/#artist`,
+    name: ARTIST_NAME,
+  }
   return {
     '@context': 'https://schema.org',
     '@type': 'MusicAlbum',
     name: release.title,
     datePublished: release.date,
-    byArtist: {
-      '@type': 'MusicGroup',
-      '@id': `${SITE_URL}/#artist`,
-      name: ARTIST_NAME,
-    },
+    byArtist: artist,
     ...(release.spotifyAlbumId
       ? { url: spotifyAlbumUrl(release.spotifyAlbumId) }
+      : {}),
+    ...(release.tracks
+      ? {
+          numTracks: release.tracks.length,
+          track: release.tracks.map((t, i) => ({
+            '@type': 'MusicRecording',
+            position: i + 1,
+            name: t.title,
+            byArtist: artist,
+          })),
+        }
       : {}),
   }
 }

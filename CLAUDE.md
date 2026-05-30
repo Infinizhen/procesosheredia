@@ -152,13 +152,15 @@ stays reachable on desktop. **`/releases`** is a wide "track-select" stage: numb
 that **tilt in 3D toward the pointer** (`TiltCover` + `useTilt`); released ones open a detail
 page, upcoming ones render as a desaturated "locked" tile. **`/releases/:slug`** is the
 per-release page — a **wide, brutalist hero** (large tilting cover + big title block + album
-player) with the **lyrics shown in full** below (two-column on desktop; not behind a disclosure).
+player). Below, under a big **LETRA** marker: a **single** shows its lyrics in full (two-column
+on desktop); an **EP/album** shows a `Tracklist` (an accessible tablist "track select" — numbered
+songs beside the selected song's lyrics, arrow-key nav; lyric-less tracks are tagged instrumental).
 **`/bio`** is what Home used to be (artist name hero + artist player) — still a
 **placeholder** awaiting real copy (plan: when the bio is written, that layout becomes the bio).
 Releases are a **single source of truth in `src/lib/releases.ts`** (slug, title, date,
-`spotifyAlbumId|null`, cover, kind, `featured`, optional `lyrics`); covers in `public/covers/`
-(optimized ~1000px). The **`og:image`** (`public/og.png`, 1200×630) ships and is advertised
-site-wide.
+`spotifyAlbumId|null`, cover, kind, `featured`, and **either** `lyrics` for a single **or**
+`tracks: {title, lyrics?}[]` for an EP/album); covers in `public/covers/` (optimized ~1000px).
+The **`og:image`** (`public/og.png`, 1200×630) ships and is advertised site-wide.
 
 **Next:** real **bio** copy; the Spotify **album id for "El increíble viaje de Paquita"** once it
 ships (2026-06-05) — set `spotifyAlbumId` in `releases.ts` and its player lights up; further

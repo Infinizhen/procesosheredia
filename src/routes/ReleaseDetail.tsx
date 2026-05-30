@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import Seo from '../components/Seo'
 import SpotifyEmbed from '../components/SpotifyEmbed'
 import TiltCover from '../components/TiltCover'
+import Tracklist from '../components/Tracklist'
 import NotFound from './NotFound'
 import { DEFAULT_LOCALE, isLocale } from '../i18n/locales'
 import { ARTIST_NAME } from '../lib/seo'
@@ -96,6 +97,15 @@ export default function ReleaseDetail({ now = new Date() }: { now?: Date }) {
               {t('releases.lyrics')}
             </h2>
             <p className="lyrics__body">{release.lyrics}</p>
+          </section>
+        )}
+
+        {release.tracks && (
+          <section className="lyrics" aria-labelledby="tracks-heading">
+            <h2 id="tracks-heading" className="lyrics__heading">
+              {t('releases.lyrics')}
+            </h2>
+            <Tracklist tracks={release.tracks} />
           </section>
         )}
       </main>
