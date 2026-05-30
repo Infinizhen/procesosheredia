@@ -13,34 +13,61 @@ function renderAt(path: string) {
 }
 
 describe('i18n routing', () => {
-  it('renders Spanish at /es', async () => {
+  it('renders the featured release on the Spanish home', async () => {
     renderAt('/es')
     expect(
-      await screen.findByRole('heading', { name: 'Antonio Procesos Heredia' }),
+      await screen.findByRole('heading', { name: 'Lirios del Apocalipsis' }),
     ).toBeInTheDocument()
     expect(
       await screen.findByRole('button', { name: 'Escuchar en Spotify' }),
     ).toBeInTheDocument()
   })
 
-  it('renders English at /en', async () => {
+  it('renders the English home', async () => {
     renderAt('/en')
     expect(
       await screen.findByRole('button', { name: 'Listen on Spotify' }),
     ).toBeInTheDocument()
   })
 
-  it('renders Japanese at /ja', async () => {
+  it('renders the Japanese home', async () => {
     renderAt('/ja')
     expect(
       await screen.findByRole('button', { name: 'Spotify で聴く' }),
     ).toBeInTheDocument()
   })
 
-  it('renders the bio page at /es/bio', async () => {
+  it('renders the releases index at /es/releases', async () => {
+    renderAt('/es/releases')
+    expect(
+      await screen.findByRole('heading', { level: 1, name: 'Lanzamientos' }),
+    ).toBeInTheDocument()
+  })
+
+  it('renders a release detail at /es/releases/:slug', async () => {
+    renderAt('/es/releases/lirios-del-apocalipsis')
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: 'Lirios del Apocalipsis',
+      }),
+    ).toBeInTheDocument()
+  })
+
+  it('shows a 404 for an unknown release slug', async () => {
+    renderAt('/es/releases/no-existe')
+    expect(
+      await screen.findByRole('heading', { name: '404' }),
+    ).toBeInTheDocument()
+  })
+
+  it('renders the bio page (artist hero placeholder) at /es/bio', async () => {
     renderAt('/es/bio')
     expect(
-      await screen.findByRole('heading', { name: 'Biografía' }),
+      await screen.findByRole('heading', {
+        level: 1,
+        name: 'Antonio Procesos Heredia',
+      }),
     ).toBeInTheDocument()
   })
 
@@ -64,7 +91,7 @@ describe('i18n routing', () => {
   it('redirects "/" to a localized home', async () => {
     renderAt('/')
     expect(
-      await screen.findByRole('heading', { name: 'Antonio Procesos Heredia' }),
+      await screen.findByRole('heading', { name: 'Lirios del Apocalipsis' }),
     ).toBeInTheDocument()
   })
 

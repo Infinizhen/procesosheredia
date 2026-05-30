@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { buildSitemap } from './sitemap'
+import { buildSitemap, indexablePaths } from './sitemap'
+import { LOCALE_CODES } from '../i18n/locales'
+import { RELEASES } from './releases'
 
 describe('buildSitemap', () => {
   const xml = buildSitemap()
@@ -13,22 +15,32 @@ describe('buildSitemap', () => {
     expect(xml.trimEnd().endsWith('</urlset>')).toBe(true)
   })
 
-  it('lists every locale × indexable path (home + bio)', () => {
+  it('lists home, releases index and bio for every locale', () => {
     for (const url of [
       'https://procesosheredia.com/es',
       'https://procesosheredia.com/en',
       'https://procesosheredia.com/ja',
+      'https://procesosheredia.com/es/releases',
       'https://procesosheredia.com/es/bio',
-      'https://procesosheredia.com/en/bio',
       'https://procesosheredia.com/ja/bio',
     ]) {
       expect(xml).toContain(`<loc>${url}</loc>`)
     }
   })
 
-  it('has one <url> entry per locale × path', () => {
+  it('lists every release detail page per locale', () => {
+    for (const r of RELEASES) {
+      for (const code of LOCALE_CODES) {
+        expect(xml).toContain(
+          `<loc>https://procesosheredia.com/${code}/releases/${r.slug}</loc>`,
+        )
+      }
+    }
+  })
+
+  it('has one <url> entry per locale × indexable path', () => {
     const count = (xml.match(/<url>/g) ?? []).length
-    expect(count).toBe(6)
+    expect(count).toBe(indexablePaths().length * LOCALE_CODES.length)
   })
 
   it('declares hreflang alternates (incl. x-default) on each entry', () => {

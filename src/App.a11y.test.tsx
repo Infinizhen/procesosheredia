@@ -5,7 +5,15 @@ import App from './App'
 import { findA11yViolations } from './test/axe'
 
 describe('accessibility (axe, component)', () => {
-  for (const path of ['/es', '/en', '/ja', '/es/bio']) {
+  for (const path of [
+    '/es',
+    '/en',
+    '/ja',
+    '/es/releases',
+    '/es/releases/lirios-del-apocalipsis',
+    '/es/releases/el-increible-viaje-de-paquita',
+    '/es/bio',
+  ]) {
     it(`has no WCAG A/AA violations at ${path}`, async () => {
       const { container } = render(
         <MemoryRouter initialEntries={[path]}>

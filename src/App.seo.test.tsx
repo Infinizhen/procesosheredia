@@ -33,15 +33,14 @@ describe('per-page SEO (integration)', () => {
     )
   })
 
-  it('exposes MusicGroup structured data on the home page', async () => {
+  it('exposes MusicGroup + MusicAlbum structured data on the home page', async () => {
     renderAt('/ja')
     await waitFor(() => {
-      const script = document.querySelector(
-        'script[type="application/ld+json"]',
-      )
-      expect(JSON.parse(script?.textContent ?? '{}')['@type']).toBe(
-        'MusicGroup',
-      )
+      const types = [
+        ...document.querySelectorAll('script[type="application/ld+json"]'),
+      ].map((s) => JSON.parse(s.textContent ?? '{}')['@type'])
+      expect(types).toContain('MusicGroup')
+      expect(types).toContain('MusicAlbum')
     })
   })
 

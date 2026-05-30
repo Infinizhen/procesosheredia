@@ -29,8 +29,12 @@ export const SPOTIFY_URL = `https://open.spotify.com/artist/${SPOTIFY_ARTIST_ID}
 /** The artist's embeddable Spotify player (dark theme). */
 export const SPOTIFY_EMBED_URL = `https://open.spotify.com/embed/artist/${SPOTIFY_ARTIST_ID}`
 
-/** Locale-less paths that should be indexed and listed in the sitemap. */
-export const INDEXABLE_PATHS = ['', '/bio'] as const
+/**
+ * Static locale-less paths to index (home, releases index, bio). Per-release
+ * detail paths are appended by the sitemap builder from the releases data, kept
+ * out of here to avoid a circular import (releases.ts depends on this module).
+ */
+export const INDEXABLE_PATHS = ['', '/releases', '/bio'] as const
 
 /** Absolute canonical URL for a locale + locale-less path (e.g. "/bio"). */
 export function canonicalUrl(locale: LocaleCode, path = ''): string {

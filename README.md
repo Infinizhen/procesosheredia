@@ -34,7 +34,7 @@ Testing: **Vitest** + **React Testing Library** (unit/component), **axe-core**
 src/
   routes/      page components (one per route)
   components/  reusable UI (Seo, SiteFooter, LanguageSwitcher, SpotifyEmbed, …)
-  lib/         pure logic / helpers (contact, seo, sitemap, social)
+  lib/         pure logic / helpers (contact, seo, sitemap, social, releases)
   content/     long-form copy (legal text)
   i18n/        config + per-language string resources (es / en / ja)
   hooks/       custom hooks
@@ -45,6 +45,13 @@ public/        static assets · _redirects · robots.txt   (sitemap.xml is gener
 ```
 
 Tests are **colocated** with the code they cover (`Foo.tsx` + `Foo.test.tsx`).
+
+**Releases are data-driven.** The home feature, the `/releases` stage and each
+`/releases/:slug` page all read from one array in `src/lib/releases.ts`. To add a
+release: drop a square cover in `public/covers/`, add an entry (slug, title, date,
+`spotifyAlbumId` or `null`, cover, kind, `featured`, optional `lyrics`), and it
+appears everywhere — sitemap included. A future `date` shows as "upcoming"; set
+`spotifyAlbumId` once it's out to light up the player.
 
 ## Getting started
 

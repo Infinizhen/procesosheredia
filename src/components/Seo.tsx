@@ -19,16 +19,31 @@ interface SeoProps {
   description?: string
   /** Keep the page out of search indexes (e.g. the 404 route). */
   noindex?: boolean
+  /**
+   * Extra JSON-LD to emit alongside the artist entity (e.g. a release's
+   * `MusicAlbum`). Read by JS-capable crawlers like Googlebot.
+   */
+  extraJsonLd?: Record<string, unknown>
 }
 
 /**
  * Per-page document metadata. The `<title>` is the single static element in
  * `index.html`, updated in place via `document.title` so React never hoists a
  * second one; the rest — meta description, canonical + `hreflang` alternates,
- * Open Graph/Twitter cards and `MusicGroup` JSON-LD — uses React 19 metadata
- * hoisting. Locale and path are derived from the active route.
+ * Open Graph/Twitter cards and JSON-LD — uses React 19 metadata hoisting.
+ * Locale and path are derived from the active route.
+ *
+ * The share image is the single, language-neutral `og.png` (mirrored in
+ * `index.html` for no-JS social scrapers, which can't read per-page React tags
+ * without SSR). Per-page art instead rides along as `MusicAlbum` JSON-LD, which
+ * JS-capable crawlers do read.
  */
-export default function Seo({ title, description, noindex }: SeoProps) {
+export default function Seo({
+  title,
+  description,
+  noindex,
+  extraJsonLd,
+}: SeoProps) {
   const { lang } = useParams()
   const { pathname } = useLocation()
 
@@ -82,6 +97,12 @@ export default function Seo({ title, description, noindex }: SeoProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd }}
       />
+      {extraJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(extraJsonLd) }}
+        />
+      )}
     </>
   )
 }

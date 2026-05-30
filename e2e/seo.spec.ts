@@ -19,6 +19,8 @@ test('serves a sitemap.xml covering every language', async ({ request }) => {
     'https://procesosheredia.com/es',
     'https://procesosheredia.com/en',
     'https://procesosheredia.com/ja',
+    'https://procesosheredia.com/es/releases',
+    'https://procesosheredia.com/es/releases/lirios-del-apocalipsis',
     'https://procesosheredia.com/es/bio',
     'https://procesosheredia.com/en/bio',
     'https://procesosheredia.com/ja/bio',
@@ -28,7 +30,7 @@ test('serves a sitemap.xml covering every language', async ({ request }) => {
   expect(body).toContain('hreflang="x-default"')
 })
 
-test('home is titled and carries MusicGroup structured data', async ({
+test('home is titled and carries MusicGroup + MusicAlbum structured data', async ({
   page,
 }) => {
   await page.goto('/es')
@@ -38,11 +40,17 @@ test('home is titled and carries MusicGroup structured data', async ({
     page.locator('head meta[name="description"]').first(),
   ).toHaveAttribute('content', /.+/)
 
-  const jsonLd = page.locator('script[type="application/ld+json"]')
-  await expect(jsonLd).toHaveCount(1)
-  const data = JSON.parse((await jsonLd.textContent()) ?? '{}')
-  expect(data['@type']).toBe('MusicGroup')
-  expect(data.sameAs).toContain(
+  const blocks = await page
+    .locator('script[type="application/ld+json"]')
+    .allTextContents()
+  const types = blocks.map((b) => JSON.parse(b)['@type'])
+  expect(types).toContain('MusicGroup')
+  expect(types).toContain('MusicAlbum')
+
+  const group = blocks
+    .map((b) => JSON.parse(b))
+    .find((d) => d['@type'] === 'MusicGroup')
+  expect(group.sameAs).toContain(
     'https://open.spotify.com/artist/4f8EtuWyQnq2T8NyZeJ0vn',
   )
 })
@@ -70,11 +78,37 @@ test('serves the og:image and favicon assets', async ({ request }) => {
   expect(ico.ok()).toBeTruthy()
 })
 
-test('home advertises the 1200×630 og:image', async ({ page }) => {
-  await page.goto('/es')
+test('advertises the 1200×630 og:image on home and inner pages', async ({
+  page,
+}) => {
+  for (const path of [
+    '/es',
+    '/es/releases/lirios-del-apocalipsis',
+    '/es/bio',
+  ]) {
+    await page.goto(path)
+    await expect(
+      page.locator('head meta[property="og:image"]').first(),
+    ).toHaveAttribute('content', 'https://procesosheredia.com/og.png')
+  }
   await expect(
-    page.locator('head meta[property="og:image"]').first(),
-  ).toHaveAttribute('content', 'https://procesosheredia.com/og.png')
+    page.locator('head meta[property="og:image:width"]').first(),
+  ).toHaveAttribute('content', '1200')
+})
+
+test('a release page carries MusicAlbum structured data', async ({ page }) => {
+  await page.goto('/es/releases/lirios-del-apocalipsis')
+  const blocks = await page
+    .locator('script[type="application/ld+json"]')
+    .allTextContents()
+  const album = blocks
+    .map((b) => JSON.parse(b))
+    .find((d) => d['@type'] === 'MusicAlbum')
+  expect(album).toBeTruthy()
+  expect(album.name).toBe('Lirios del Apocalipsis')
+  expect(album.url).toBe(
+    'https://open.spotify.com/album/5bTOzSrqRUVjmXOFgf7mWp',
+  )
 })
 
 test('keeps exactly one <title>, updated per page (no duplicate)', async ({

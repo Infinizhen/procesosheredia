@@ -1,7 +1,16 @@
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 
-for (const path of ['/es', '/en', '/ja', '/es/bio', '/es/privacy']) {
+for (const path of [
+  '/es',
+  '/en',
+  '/ja',
+  '/es/releases',
+  '/es/releases/lirios-del-apocalipsis',
+  '/es/releases/el-increible-viaje-de-paquita',
+  '/es/bio',
+  '/es/privacy',
+]) {
   test(`no WCAG A/AA a11y violations on ${path}`, async ({ page }) => {
     await page.goto(path)
     await page.getByRole('heading').first().waitFor()

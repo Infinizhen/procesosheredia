@@ -10,7 +10,7 @@ describe('SpotifyEmbed', () => {
     expect(container.querySelector('iframe')).toBeNull()
   })
 
-  it('loads the titled Spotify player iframe once clicked', async () => {
+  it('loads the artist player iframe once clicked (default target)', async () => {
     const user = userEvent.setup()
     const { container } = render(<SpotifyEmbed />)
     await user.click(screen.getByRole('button'))
@@ -20,5 +20,36 @@ describe('SpotifyEmbed', () => {
       'open.spotify.com/embed/artist/4f8EtuWyQnq2T8NyZeJ0vn',
     )
     expect(iframe?.getAttribute('title')?.length).toBeTruthy()
+  })
+
+  it('loads an album player when given an album target', async () => {
+    const user = userEvent.setup()
+    const { container } = render(
+      <SpotifyEmbed type="album" id="4aYoKShEeyz101xa5KqgPp" />,
+    )
+    await user.click(screen.getByRole('button'))
+
+    const iframe = container.querySelector('iframe')
+    expect(iframe?.getAttribute('src')).toContain(
+      'open.spotify.com/embed/album/4aYoKShEeyz101xa5KqgPp',
+    )
+  })
+
+  it('uses a custom button label and iframe title when provided', async () => {
+    const user = userEvent.setup()
+    const { container } = render(
+      <SpotifyEmbed
+        type="album"
+        id="abc123"
+        label="Play the single"
+        title="Spotify player: My Single"
+      />,
+    )
+    const button = screen.getByRole('button', { name: 'Play the single' })
+    expect(button).toBeInTheDocument()
+    await user.click(button)
+    expect(container.querySelector('iframe')?.getAttribute('title')).toBe(
+      'Spotify player: My Single',
+    )
   })
 })

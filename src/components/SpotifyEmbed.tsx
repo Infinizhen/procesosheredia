@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SPOTIFY_EMBED_URL } from '../lib/seo'
+import { SPOTIFY_ARTIST_ID } from '../lib/seo'
 
 function SpotifyGlyph() {
   return (
@@ -19,24 +19,45 @@ function SpotifyGlyph() {
   )
 }
 
+interface SpotifyEmbedProps {
+  /** What to embed: the artist profile (default) or a specific album. */
+  type?: 'artist' | 'album'
+  /** Spotify entity id; defaults to the artist id when omitted. */
+  id?: string
+  /** Button label; falls back to the generic "Listen on Spotify" string. */
+  label?: string
+  /** iframe accessible title; falls back to the generic player-title string. */
+  title?: string
+}
+
 /**
- * The artist's Spotify player, loaded behind a facade: the heavy, cookie-setting
+ * A Spotify player loaded behind a facade: the heavy, cookie-setting
  * cross-origin iframe mounts only after the user opts in by clicking. Keeps the
- * initial load fast and free of third-party cookies (privacy + Lighthouse), and
- * we still link Spotify from the page's MusicGroup JSON-LD for crawlers.
+ * initial load fast and free of third-party cookies (privacy + Lighthouse).
+ *
+ * Defaults to the artist profile; pass `type="album"` + `id` for an album.
  */
-export default function SpotifyEmbed() {
+export default function SpotifyEmbed({
+  type = 'artist',
+  id,
+  label,
+  title,
+}: SpotifyEmbedProps) {
   const { t } = useTranslation()
   const [loaded, setLoaded] = useState(false)
+
+  const entityId = id ?? SPOTIFY_ARTIST_ID
+  const embedSrc = `https://open.spotify.com/embed/${type}/${entityId}?utm_source=generator&theme=0`
 
   if (loaded) {
     return (
       <iframe
         className="spotify-embed"
-        title={t('music.playerTitle')}
-        src={`${SPOTIFY_EMBED_URL}?utm_source=generator&theme=0`}
+        title={title ?? t('music.playerTitle')}
+        src={embedSrc}
         width="100%"
         height="352"
+        loading="lazy"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       />
     )
@@ -49,7 +70,7 @@ export default function SpotifyEmbed() {
       onClick={() => setLoaded(true)}
     >
       <SpotifyGlyph />
-      {t('music.loadPlayer')}
+      {label ?? t('music.loadPlayer')}
     </button>
   )
 }
