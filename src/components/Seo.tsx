@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { DEFAULT_LOCALE, LOCALES, isLocale } from '../i18n/locales'
 import {
@@ -21,24 +22,27 @@ interface SeoProps {
 }
 
 /**
- * Per-page document metadata via React 19 metadata hoisting: `<title>`, meta
- * description, canonical + `hreflang` alternates, Open Graph/Twitter cards and
- * `MusicGroup` JSON-LD. Locale and path are derived from the active route.
+ * Per-page document metadata. The `<title>` is the single static element in
+ * `index.html`, updated in place via `document.title` so React never hoists a
+ * second one; the rest — meta description, canonical + `hreflang` alternates,
+ * Open Graph/Twitter cards and `MusicGroup` JSON-LD — uses React 19 metadata
+ * hoisting. Locale and path are derived from the active route.
  */
 export default function Seo({ title, description, noindex }: SeoProps) {
   const { lang } = useParams()
   const { pathname } = useLocation()
 
+  // Update the existing <title> (the static one in index.html) in place rather
+  // than rendering another <title>, which React 19 would hoist as a duplicate.
+  useEffect(() => {
+    document.title = title
+  }, [title])
+
   const locale = isLocale(lang) ? lang : DEFAULT_LOCALE
   const path = isLocale(lang) ? pathname.slice(`/${lang}`.length) : ''
 
   if (noindex) {
-    return (
-      <>
-        <title>{title}</title>
-        <meta name="robots" content="noindex" />
-      </>
-    )
+    return <meta name="robots" content="noindex" />
   }
 
   const canonical = canonicalUrl(locale, path)
@@ -46,7 +50,6 @@ export default function Seo({ title, description, noindex }: SeoProps) {
 
   return (
     <>
-      <title>{title}</title>
       {description && <meta name="description" content={description} />}
 
       <link rel="canonical" href={canonical} />

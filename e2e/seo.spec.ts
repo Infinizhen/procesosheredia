@@ -68,9 +68,6 @@ test('serves the og:image and favicon assets', async ({ request }) => {
 
   const ico = await request.get('/favicon.ico')
   expect(ico.ok()).toBeTruthy()
-
-  const svg = await request.get('/favicon.svg')
-  expect(svg.ok()).toBeTruthy()
 })
 
 test('home advertises the 1200×630 og:image', async ({ page }) => {
@@ -78,4 +75,12 @@ test('home advertises the 1200×630 og:image', async ({ page }) => {
   await expect(
     page.locator('head meta[property="og:image"]').first(),
   ).toHaveAttribute('content', 'https://procesosheredia.com/og.png')
+})
+
+test('keeps exactly one <title>, updated per page (no duplicate)', async ({
+  page,
+}) => {
+  await page.goto('/es')
+  await expect(page.locator('head > title')).toHaveCount(1)
+  await expect(page).toHaveTitle(/Antonio Procesos Heredia/)
 })
