@@ -105,7 +105,7 @@ main {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px 24px;
+  gap: 10px 24px;
   padding: 14px clamp(1.25rem, 5vw, 4rem);
   border-bottom: 1px solid var(--line);
   background: color-mix(in srgb, var(--bg) 86%, transparent);
@@ -113,6 +113,19 @@ main {
   position: sticky;
   top: 0;
   z-index: 10;
+}
+/* Mobile: two rows instead of three — brand + language switcher share the top
+   row (switcher pushed to the end), and the nav drops to its own full-width
+   row below. The DOM order is brand · nav · lang; `order` rearranges visually. */
+@media (max-width: 639px) {
+  .site-header .lang {
+    order: 1;
+    margin-left: auto;
+  }
+  .site-header .site-nav {
+    order: 2;
+    width: 100%;
+  }
 }
 
 .brand {
@@ -134,7 +147,14 @@ main {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: clamp(0.75rem, 2.5vw, 1.75rem);
+  gap: clamp(0.9rem, 2.5vw, 1.75rem);
+}
+/* On the narrowest phones, tighten the nav gap a touch so the 4 items fit one
+   row without crowding the tap targets (which keep their full height). */
+@media (max-width: 400px) {
+  .site-nav {
+    gap: 0.8rem;
+  }
 }
 .site-nav__link {
   position: relative;
@@ -975,15 +995,21 @@ main {
 }
 
 @media (max-width: 640px) {
+  /* Two rows: social + email share the top row; the credit line spans below. */
   .site-footer {
-    grid-template-columns: 1fr;
-    justify-items: center;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    gap: 12px 20px;
   }
-  .social,
+  .social {
+    justify-self: end;
+  }
+  .email-link {
+    justify-self: start;
+  }
   .site-footer__credit {
+    grid-column: 1 / -1;
     justify-self: center;
-  }
-  .site-footer__credit {
     text-align: center;
   }
 }
