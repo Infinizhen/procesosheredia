@@ -1113,14 +1113,24 @@ main {
 }
 .garden__canvas {
   display: block;
-  /* Exact pixel width/height are set by the hook (cols×CELL_PX) to fill the
-     container; cap to 100% as a guard against overflow. */
+  /* Reserve the canvas's footprint BEFORE the hook measures and sets exact
+     pixel dimensions (cols×CELL_PX). Without this the canvas starts at height 0
+     and the page jumps when JS sizes it — a big Cumulative Layout Shift. The
+     aspect-ratios mirror the hook's height factors (mobile w×1.1 → ~1/1.1;
+     desktop w×0.52 → ~1/0.52) so the reserved box matches the final size. */
+  width: 100%;
   max-width: 100%;
+  aspect-ratio: 1 / 1.1;
   border: 1px solid var(--line);
   border-radius: 12px;
   box-shadow: 0 24px 80px -32px var(--accent-glow);
   cursor: crosshair;
   touch-action: none; /* let pointer-drag paint instead of scrolling */
+}
+@media (min-width: 640px) {
+  .garden__canvas {
+    aspect-ratio: 1 / 0.52;
+  }
 }
 
 /* Live meters: pinned, unobtrusive, top-left over the canvas. */
