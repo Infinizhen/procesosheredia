@@ -83,7 +83,6 @@ body {
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  border-inline: 1px solid var(--line);
 }
 
 .app {
@@ -107,12 +106,22 @@ main {
   justify-content: space-between;
   gap: 10px 24px;
   padding: 14px clamp(1.25rem, 5vw, 4rem);
-  border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg) 86%, transparent);
-  backdrop-filter: blur(8px);
   position: sticky;
   top: 0;
   z-index: 10;
+  /* Transparent over the open layout at the top; the fill/blur/hairline fade in
+     once the page scrolls (see .is-scrolled) so content stays legible beneath. */
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    backdrop-filter 0.25s ease;
+}
+.site-header.is-scrolled {
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  border-bottom-color: var(--line);
+  backdrop-filter: blur(8px);
 }
 /* Mobile: two rows instead of three — brand + language switcher share the top
    row (switcher pushed to the end), and the nav drops to its own full-width
@@ -972,7 +981,6 @@ main {
   align-items: center;
   gap: 16px 24px;
   padding: 20px clamp(1.25rem, 5vw, 4rem);
-  border-top: 1px solid var(--line);
 }
 .social {
   justify-self: start;

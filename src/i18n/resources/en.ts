@@ -53,7 +53,7 @@ export default {
     kind: { single: 'Single', ep: 'EP', album: 'Album' },
     featured: {
       eyebrow: 'New single',
-      tagline: 'Where the end of the world blooms — in a single track.',
+      tagline: 'Where the end of the world blooms, in a single track.',
     },
   },
   footer: {
