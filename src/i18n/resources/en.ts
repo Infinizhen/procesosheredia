@@ -25,7 +25,17 @@ export default {
     reducedMotion:
       'With reduced motion on, the garden is shown still. “Scatter seeds” generates a new frame.',
   },
-  bio: { heading: 'Biography' },
+  bio: {
+    heading: 'Biography',
+    eyebrow: 'Who he is',
+    lead: 'Flamenco beamed in from a future that already ended.',
+    body: [
+      'Antonio Procesos Heredia makes experimental music with flamenco in its bones: the kind of flamenco that wanders off through pop, djent and jazz and forgets to come back the same.',
+      'His songs follow one strange life: a transhuman Andalusian living the ordinary days of a post-apocalypse that never quite made the news. Consciousness gets backed up to the network. Drones light the jasmine over the old threshing floor. A family is spun from a procedural glitch and dances anyway. The lyrics keep their meaning just under the surface, so you have to lean in.',
+      'It is dust and dataflow at once: cante from the cortijo routed through distortion, mesopotamian goddesses sharing a verse with a demon who insists you hear his mixtape. Nothing here is nostalgia and nothing is pure sci-fi; it is the sound of an old world rebooting with its accent intact.',
+      'Call it Cortijo Core. Call it Cortijo Punk. Ancestral dust, uploaded soul, and a world rebooting one song at a time.',
+    ],
+  },
   notFound: { heading: '404', message: 'Page not found.' },
   language: { label: 'Language' },
   music: {

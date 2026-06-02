@@ -25,7 +25,16 @@ export default {
     reducedMotion:
       'Con movimiento reducido activado, el jardín se muestra fijo. «Sembrar al azar» genera un cuadro nuevo.',
   },
-  bio: { heading: 'Biografía' },
+  bio: {
+    heading: 'Biografía',
+    eyebrow: 'Quién es',
+    lead: 'Flamenco emitido desde un futuro que ya se acabó.',
+    body: [
+      'Antonio Procesos Heredia hace música experimental con el flamenco en los huesos: un flamenco inquieto que se escapa por el pop, el djent y el jazz, y vuelve cambiado.',
+      'Sus canciones siguen una misma vida extraña: la de un andaluz transhumano que vive el día a día de un apocalipsis que nunca llegó a salir en las noticias. La consciencia se respalda en la red. Los drones iluminan los jazmines sobre la era. Una familia nace de un glitch procedural y, aun así, baila. Las letras guardan su sentido justo bajo la superficie, para que te acerques a mirar.',
+      'Llámalo Cortijo Core. Llámalo Cortijo Punk. Polvo ancestral, alma subida a la nube, y un mundo que se reinicia canción a canción.',
+    ],
+  },
   notFound: { heading: '404', message: 'Página no encontrada.' },
   language: { label: 'Idioma' },
   music: {
