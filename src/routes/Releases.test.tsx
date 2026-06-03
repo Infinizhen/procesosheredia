@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
-import { MemoryRouter, Routes, Route } from 'react-router-dom'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import Releases from './Releases'
 import { RELEASES } from '../lib/releases'
 import i18n from '../i18n/config'
@@ -11,14 +11,14 @@ beforeAll(async () => {
   await i18n.changeLanguage('es')
 })
 
+// A data router (createMemoryRouter + RouterProvider), not <MemoryRouter>:
+// Releases now calls `useViewTransitionState`, which requires a data router.
 function renderReleases(now: Date) {
-  return render(
-    <MemoryRouter initialEntries={['/es/releases']}>
-      <Routes>
-        <Route path="/:lang/releases" element={<Releases now={now} />} />
-      </Routes>
-    </MemoryRouter>,
+  const router = createMemoryRouter(
+    [{ path: '/:lang/releases', element: <Releases now={now} /> }],
+    { initialEntries: ['/es/releases'] },
   )
+  return render(<RouterProvider router={router} />)
 }
 
 describe('Releases index', () => {

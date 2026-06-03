@@ -1434,6 +1434,22 @@ main {
   }
 }
 
+/* ----- View transitions: releases grid <-> detail cover morph ----------- */
+
+/* The cover and its "01" track number are the same objects in the grid tile and
+   the detail hero, so we morph them across the navigation via the View
+   Transitions API (opted in per-link with React Router's `viewTransition`). The
+   names are applied only to the cover/number that's transitioning (see
+   Releases/ReleaseDetail), so each snapshot has a single `release-cover` /
+   `release-num` group. Browsers without the API simply cut. */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-group(release-cover),
+  ::view-transition-group(release-num) {
+    animation-duration: 360ms;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
@@ -1442,5 +1458,12 @@ main {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+  /* The universal selector above can't reach the ::view-transition pseudo tree,
+     so collapse the cover/number morph to an instant cut explicitly. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.001ms !important;
   }
 }

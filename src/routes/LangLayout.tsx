@@ -1,5 +1,12 @@
 import { useEffect } from 'react'
-import { Link, NavLink, Navigate, Outlet, useParams } from 'react-router-dom'
+import {
+  Link,
+  NavLink,
+  Navigate,
+  Outlet,
+  ScrollRestoration,
+  useParams,
+} from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { DEFAULT_LOCALE, LOCALES, isLocale } from '../i18n/locales'
 import { ARTIST_NAME } from '../lib/seo'
@@ -25,6 +32,10 @@ export default function LangLayout() {
 
   return (
     <div className="app">
+      {/* Reset scroll to the top on forward navigations (so a detail page opens
+          at its hero, not wherever you were in the list) and restore it on Back
+          — which also lands the cover morph back on the tile you came from. */}
+      <ScrollRestoration />
       <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
         <Link to={`/${lang}`} className="brand">
           {ARTIST_NAME}

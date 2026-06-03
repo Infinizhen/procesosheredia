@@ -10,6 +10,12 @@ interface TiltCoverProps {
   className?: string
   /** Desaturate + dim, for upcoming ("locked") releases. */
   dim?: boolean
+  /**
+   * When set, names the outer wrapper for a cross-page View Transition, so the
+   * cover can morph between the releases grid and the detail hero. Apply it only
+   * to the single cover that's transitioning — each snapshot needs a unique name.
+   */
+  viewTransitionName?: string
   /** Overlaid content (number, scrim, CTA) rendered above the image. */
   children?: ReactNode
 }
@@ -26,6 +32,7 @@ export default function TiltCover({
   alt,
   className = '',
   dim = false,
+  viewTransitionName,
   children,
 }: TiltCoverProps) {
   const { ref, tilt, handlers, enabled } = useTilt()
@@ -35,6 +42,7 @@ export default function TiltCover({
     '--ry': `${tilt.ry}deg`,
     '--gx': `${tilt.px * 100}%`,
     '--gy': `${tilt.py * 100}%`,
+    viewTransitionName,
   } as CSSProperties
 
   return (

@@ -1,6 +1,5 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
 import '@fontsource/aguafina-script/400.css'
 import '@fontsource/alike/400.css'
 import '@fontsource/wallpoet/400.css'
@@ -16,8 +15,6 @@ if (initial) void i18n.changeLanguage(initial)
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <App />
   </StrictMode>,
 )

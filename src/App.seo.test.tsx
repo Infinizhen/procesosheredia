@@ -1,15 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { render, waitFor } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
-import App from './App'
-
-function renderAt(path: string) {
-  return render(
-    <MemoryRouter initialEntries={[path]}>
-      <App />
-    </MemoryRouter>,
-  )
-}
+import { waitFor } from '@testing-library/react'
+import { renderAppAt as renderAt } from './test/renderApp'
 
 describe('per-page SEO (integration)', () => {
   it.each([

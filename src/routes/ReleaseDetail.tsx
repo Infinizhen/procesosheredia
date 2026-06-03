@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import ListenLink from '../components/ListenLink'
 import Seo from '../components/Seo'
 import SpotifyEmbed from '../components/SpotifyEmbed'
@@ -20,10 +20,17 @@ import {
  * A single release page: a wide, brutalist hero (a large tilting cover beside a
  * big title block) and, below, the lyrics laid out in full — no disclosure.
  * Unknown slugs render 404.
+ *
+ * The hero cover + track number always carry the `release-cover` / `release-num`
+ * View Transition names (there is only ever one cover here), so they morph from —
+ * and back to — the matching grid tile when arriving via a `viewTransition` link.
  */
 export default function ReleaseDetail({ now = new Date() }: { now?: Date }) {
   const { t } = useTranslation()
   const { lang, slug } = useParams()
+  const navigate = useNavigate()
+  const cameFromList =
+    (useLocation().state as { from?: string } | null)?.from === 'releases'
   const locale = isLocale(lang) ? lang : DEFAULT_LOCALE
   const release = slug ? getReleaseBySlug(slug) : undefined
 
@@ -42,7 +49,23 @@ export default function ReleaseDetail({ now = new Date() }: { now?: Date }) {
         extraJsonLd={releaseJsonLd(release)}
       />
       <main className="page release">
-        <Link to={`/${locale}/releases`} className="release__back">
+        <Link
+          to={`/${locale}/releases`}
+          className="release__back"
+          viewTransition
+          onClick={(e) => {
+            // Came from the grid? Go truly back (POP) so the list scroll is
+            // restored and the cover morph lands on the tile we came from. Deep
+            // links (no such history) fall through to the link's normal push.
+            if (cameFromList) {
+              e.preventDefault()
+              // A real POP: ScrollRestoration restores the list scroll, and
+              // React Router re-applies the cover morph for the reversed
+              // viewTransition navigation.
+              navigate(-1)
+            }
+          }}
+        >
           ← {t('releases.backToReleases')}
         </Link>
 
@@ -52,8 +75,13 @@ export default function ReleaseDetail({ now = new Date() }: { now?: Date }) {
             src={release.cover}
             alt={t('releases.coverAlt', { title: release.title })}
             dim={!out}
+            viewTransitionName="release-cover"
           >
-            <span className="release__track" aria-hidden="true">
+            <span
+              className="release__track"
+              aria-hidden="true"
+              style={{ viewTransitionName: 'release-num' }}
+            >
               {num}
             </span>
           </TiltCover>
