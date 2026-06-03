@@ -1,14 +1,15 @@
 import { useTranslation } from 'react-i18next'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Seo from '../components/Seo'
-import SpotifyEmbed from '../components/SpotifyEmbed'
+import HomeFeature from '../components/home/HomeFeature'
 import { DEFAULT_LOCALE, isLocale } from '../i18n/locales'
 import { getFeaturedRelease, releaseJsonLd } from '../lib/releases'
 
 /**
- * Home: a promo landing for the current featured release. The artist identity
- * lives in the header brand + footer; here the spotlight is the new single —
- * a two-column feature on desktop, stacked on mobile.
+ * Home — a container that spotlights the current featured release. The actual
+ * presentation is chosen per release by <HomeFeature> (default: the standard
+ * two-column feature), so each release can have its own bespoke home without
+ * touching this route. Today the featured single (Lirios) uses the default.
  */
 export default function Home() {
   const { t } = useTranslation()
@@ -24,42 +25,7 @@ export default function Home() {
         extraJsonLd={featured ? releaseJsonLd(featured) : undefined}
       />
       <main className="home">
-        {featured && (
-          <section className="feature">
-            <Link
-              className="feature__cover"
-              to={`/${locale}/releases/${featured.slug}`}
-              aria-label={t('releases.viewRelease')}
-            >
-              <img
-                src={featured.cover}
-                alt={t('releases.coverAlt', { title: featured.title })}
-                width="1000"
-                height="1000"
-              />
-            </Link>
-
-            <div className="feature__body">
-              <p className="eyebrow eyebrow--lg">
-                {t('releases.featured.eyebrow')}
-              </p>
-              <h1 className="feature__title">{featured.title}</h1>
-              <p className="feature__tagline">
-                {t('releases.featured.tagline')}
-              </p>
-              {featured.spotifyAlbumId && (
-                <SpotifyEmbed
-                  type="album"
-                  id={featured.spotifyAlbumId}
-                  title={t('releases.playerTitle', { title: featured.title })}
-                />
-              )}
-              <Link className="feature__all" to={`/${locale}/releases`}>
-                {t('releases.viewAll')} →
-              </Link>
-            </div>
-          </section>
-        )}
+        {featured && <HomeFeature release={featured} locale={locale} />}
       </main>
     </>
   )
