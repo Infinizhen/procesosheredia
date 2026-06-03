@@ -54,6 +54,29 @@ describe('ReleaseDetail', () => {
     expect(screen.queryByRole('button', { name: /spotify/i })).toBeNull()
   })
 
+  it('links out to every platform for an out release', () => {
+    renderDetail('lirios-del-apocalipsis', new Date('2026-05-30'))
+    const link = screen.getByRole('link', {
+      name: /Escuchar en todas las plataformas/i,
+    })
+    expect(link).toHaveAttribute(
+      'href',
+      'https://ditto.fm/lirios-del-apocalipsis',
+    )
+    expect(link).toHaveAttribute('target', '_blank')
+  })
+
+  it('offers a pre-save link for the upcoming EP, even without a Spotify id', () => {
+    renderDetail('el-increible-viaje-de-paquita', new Date('2026-05-30'))
+    const link = screen.getByRole('link', {
+      name: /Pre-guárdalo en todas las plataformas/i,
+    })
+    expect(link).toHaveAttribute(
+      'href',
+      'https://ditto.fm/el-increible-viaje-de-paquita',
+    )
+  })
+
   it('shows lyrics up-front (not hidden behind a disclosure)', () => {
     const { container } = renderDetail(
       'lirios-del-apocalipsis',

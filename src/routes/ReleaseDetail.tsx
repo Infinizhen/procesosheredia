@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
+import ListenLink from '../components/ListenLink'
 import Seo from '../components/Seo'
 import SpotifyEmbed from '../components/SpotifyEmbed'
 import TiltCover from '../components/TiltCover'
@@ -87,6 +88,10 @@ export default function ReleaseDetail({ now = new Date() }: { now?: Date }) {
                 id={release.spotifyAlbumId}
                 title={t('releases.playerTitle', { title: release.title })}
               />
+            )}
+
+            {release.smartLink && (
+              <ListenLink href={release.smartLink} out={out} />
             )}
           </div>
         </section>

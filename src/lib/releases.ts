@@ -26,6 +26,12 @@ export interface Release {
   date: string
   /** Spotify album id, or `null` if not published / not yet known. */
   spotifyAlbumId: string | null
+  /**
+   * All-platforms smart link (a Ditto `ditto.fm/<slug>` URL): streaming once the
+   * release is out, a pre-save page while it is upcoming. Omitted when there is
+   * no smart link for the release yet.
+   */
+  smartLink?: string
   /** Cover art served from `public/covers`. */
   cover: string
   /** Short type label key suffix: 'single' | 'ep' | 'album'. */
@@ -53,6 +59,7 @@ export const RELEASES: Release[] = [
     title: 'Permíteme intentarlo',
     date: '2026-05-07',
     spotifyAlbumId: '4aYoKShEeyz101xa5KqgPp',
+    smartLink: 'https://ditto.fm/permiteme-intentarlo',
     cover: '/covers/permiteme-intentarlo.jpg',
     kind: 'single',
     featured: false,
@@ -97,6 +104,7 @@ NO QUIERO MORIR.`,
     title: 'Lirios del Apocalipsis',
     date: '2026-05-29',
     spotifyAlbumId: '5bTOzSrqRUVjmXOFgf7mWp',
+    smartLink: 'https://ditto.fm/lirios-del-apocalipsis',
     cover: '/covers/lirios-del-apocalipsis.jpg',
     kind: 'single',
     featured: true,
@@ -133,6 +141,7 @@ Goteando de sangre, les crece otro brote, los mece la brisa.`,
     title: 'El increíble viaje de Paquita',
     date: '2026-06-05',
     spotifyAlbumId: null,
+    smartLink: 'https://ditto.fm/el-increible-viaje-de-paquita',
     cover: '/covers/el-increible-viaje-de-paquita.jpg',
     kind: 'ep',
     featured: false,

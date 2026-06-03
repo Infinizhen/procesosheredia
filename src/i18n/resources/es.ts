@@ -59,6 +59,8 @@ export default {
     coverAlt: 'Portada de «{{title}}»',
     metaDescription: '«{{title}}», música de Antonio Procesos Heredia.',
     playerTitle: 'Reproductor de Spotify: {{title}}',
+    listenAll: 'Escuchar en todas las plataformas',
+    presaveAll: 'Pre-guárdalo en todas las plataformas',
     kind: { single: 'Single', ep: 'EP', album: 'Álbum' },
     featured: {
       eyebrow: 'Nuevo single',

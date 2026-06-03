@@ -60,6 +60,8 @@ export default {
     coverAlt: '「{{title}}」のジャケット',
     metaDescription: '「{{title}}」 — Antonio Procesos Heredia の楽曲。',
     playerTitle: 'Spotify プレーヤー：{{title}}',
+    listenAll: '全プラットフォームで聴く',
+    presaveAll: '全プラットフォームで予約保存',
     kind: { single: 'シングル', ep: 'EP', album: 'アルバム' },
     featured: {
       eyebrow: 'ニューシングル',

@@ -60,6 +60,8 @@ export default {
     coverAlt: 'Cover of “{{title}}”',
     metaDescription: '“{{title}}” — music by Antonio Procesos Heredia.',
     playerTitle: 'Spotify player: {{title}}',
+    listenAll: 'Listen on all platforms',
+    presaveAll: 'Pre-save on all platforms',
     kind: { single: 'Single', ep: 'EP', album: 'Album' },
     featured: {
       eyebrow: 'New single',

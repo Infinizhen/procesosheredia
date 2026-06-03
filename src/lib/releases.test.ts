@@ -24,6 +24,10 @@ describe('releases data', () => {
       expect(
         r.spotifyAlbumId === null || /^[A-Za-z0-9]+$/.test(r.spotifyAlbumId),
       ).toBe(true)
+      expect(
+        r.smartLink === undefined ||
+          /^https:\/\/ditto\.fm\/[a-z0-9-]+$/.test(r.smartLink),
+      ).toBe(true)
       expect(['single', 'ep', 'album']).toContain(r.kind)
       // A release carries song lyrics one way or the other, never both.
       expect(r.lyrics !== undefined && r.tracks !== undefined).toBe(false)
@@ -132,6 +136,18 @@ describe('releases data', () => {
     )
     expect(getReleaseBySlug('permiteme-intentarlo')!.lyrics).toMatch(
       /permíteme intentarlo/i,
+    )
+  })
+
+  it('carries a Ditto smart link for each of the three releases', () => {
+    expect(getReleaseBySlug('permiteme-intentarlo')!.smartLink).toBe(
+      'https://ditto.fm/permiteme-intentarlo',
+    )
+    expect(getReleaseBySlug('lirios-del-apocalipsis')!.smartLink).toBe(
+      'https://ditto.fm/lirios-del-apocalipsis',
+    )
+    expect(getReleaseBySlug('el-increible-viaje-de-paquita')!.smartLink).toBe(
+      'https://ditto.fm/el-increible-viaje-de-paquita',
     )
   })
 

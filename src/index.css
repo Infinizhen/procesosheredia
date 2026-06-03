@@ -946,6 +946,35 @@ main {
   max-width: 560px;
 }
 
+/* ----- Listen everywhere (Ditto smart link) ----------------------------- */
+
+.platforms-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 26px;
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-hi);
+  background: var(--bg-1);
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  text-decoration: none;
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.platforms-link:hover {
+  background: var(--bg-2);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
 /* ----- Inner pages (Bio, 404) ------------------------------------------- */
 
 .page {
