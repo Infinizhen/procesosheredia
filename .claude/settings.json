@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "bash",
+            "command": "cat | grep -Eq 'git[[:space:]]+push' && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PostToolUse\",\"additionalContext\":\"REMINDER (git push hook): You just ran a git push. The GitHub Actions CI gate starts now and it controls deployment to Cloudflare Pages. Do NOT sit and wait for it in the foreground. Instead launch a background CI watcher and return control: get the newest run id via gh run list for the current branch, then run gh run watch with that id and --exit-status using run_in_background true. You will be auto-notified when CI finishes, so keep working or hand back control meanwhile.\"}}' || true",
+            "statusMessage": "Recordatorio: vigilar el CI en background"
+          }
+        ]
+      }
+    ]
+  }
+}
