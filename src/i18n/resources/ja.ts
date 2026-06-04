@@ -51,6 +51,8 @@ export default {
     tracklist: '収録曲',
     instrumental: 'インストゥルメンタル',
     instrumentalNote: 'インストゥルメンタル曲 — 歌詞はありません。',
+    watchOnYouTube: 'YouTube で見る',
+    videoTitle: 'ビデオ：{{title}}',
     outNow: '配信中',
     upcoming: '近日公開',
     available: '{{date}} 配信',
@@ -66,6 +68,12 @@ export default {
     featured: {
       eyebrow: 'ニューシングル',
       tagline: '世界の終わりが、ひとつの楽曲に花ひらく。',
+    },
+    paquita: {
+      // Home copy for the Paquita EP — a gamberro, surreal narrative invite.
+      tagline:
+        '彼女はアイドルになりたかった。彼はとっくにどんちゃん騒ぎ。ふたりと一緒に、夢と不安、そしてあってはならなかった運命をめぐるシュールな旅へ。',
+      cta: 'EPを見る',
     },
   },
   footer: {

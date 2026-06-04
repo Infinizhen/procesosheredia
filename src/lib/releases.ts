@@ -15,6 +15,8 @@ export interface Track {
   title: string
   /** Lyrics (verbatim), or omitted for an instrumental track. */
   lyrics?: string
+  /** YouTube video id, for a track that has a music video. */
+  video?: string
 }
 
 export interface Release {
@@ -107,7 +109,7 @@ NO QUIERO MORIR.`,
     smartLink: 'https://ditto.fm/lirios-del-apocalipsis',
     cover: '/covers/lirios-del-apocalipsis.jpg',
     kind: 'single',
-    featured: true,
+    featured: false,
     lyrics: `Cae la ciudad pero el aire está en calma,
 calma en el pecho, pecho sin alma,
 arma el silencio, lento me abraza,
@@ -140,18 +142,19 @@ Goteando de sangre, les crece otro brote, los mece la brisa.`,
     slug: 'el-increible-viaje-de-paquita',
     title: 'El increíble viaje de Paquita',
     date: '2026-06-05',
-    spotifyAlbumId: null,
+    // TODO(launch day): replace with the real Spotify album id.
+    spotifyAlbumId: 'PAQUITAplaceholder0000',
     smartLink: 'https://ditto.fm/el-increible-viaje-de-paquita',
     cover: '/covers/el-increible-viaje-de-paquita.jpg',
     kind: 'ep',
-    featured: false,
+    featured: true,
     tracks: [
       {
         title: 'Conciliación Familiar',
         lyrics: `Nacida pa ser aidol,
 pero tenía que ayudar a mi familia con el campo.
 Nacida pa ser aidol,
-pero tenía que ayudaaaaaaaar.
+pero tenía que ayudar.
 
 A la virgen del reinicio doy las gracias
 porque tengo una familia generada
@@ -161,28 +164,28 @@ ya me paso todo el día,
 pero en serio, todo el día,
 bailando sin parar.
 
-Bailando Keipop,
-bailando Keipop.
-Bailando Keipop,
-mi familia baila Keipop.
-Bailando Keipop,
-bailando Keipop.
+Bailando K-pop,
+bailando K-pop.
+Bailando K-pop,
+mi familia baila K-pop.
+Bailando K-pop,
+bailando K-pop.
 
-Bailando Keipop,
-bailando Keipop.
-Bailando Keipop,
-mi familia baila Keipop,
-mi familia baila Keipop.
-Bailando Keipop,
-bailando Keipop.
+Bailando K-pop,
+bailando K-pop.
+Bailando K-pop,
+mi familia baila K-pop,
+mi familia baila K-pop.
+Bailando K-pop,
+bailando K-pop.
 
 Te-te-tengo una familia
 generada por un glitch procedural.
 A la vir-generativa del reinicio,
 todo el día, todo el día, todo el día,
-bailando Keipop sin parar.
+bailando K-pop sin parar.
 
-Bailando Keipop sin parar.
+Bailando K-pop sin parar.
 
 Bai-lan-do qué?`,
       },
@@ -234,6 +237,8 @@ quiere que escuche su mixtape.`,
       },
       {
         title: 'Ishtar',
+        // Music video: youtube.com/watch?v=TqU2PzJXtEc
+        video: 'TqU2PzJXtEc',
         lyrics: `Arrebatao de entre mis sueños,
 una visión de calma y sosiego.
 Intento alcanzarla, no puedo,

@@ -94,6 +94,11 @@ describe('ReleaseDetail', () => {
     expect(container.querySelector('details')).toBeNull()
   })
 
+  it('shows a video facade in the hero for a release that has a track video', () => {
+    renderDetail('el-increible-viaje-de-paquita', new Date('2026-06-10'))
+    expect(screen.getByRole('button', { name: /YouTube/i })).toBeInTheDocument()
+  })
+
   it('renders a 404 heading for an unknown slug', () => {
     renderDetail('no-existe', new Date('2026-05-30'))
     expect(screen.getByRole('heading', { name: '404' })).toBeInTheDocument()

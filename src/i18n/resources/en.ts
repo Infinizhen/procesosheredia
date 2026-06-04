@@ -51,6 +51,8 @@ export default {
     tracklist: 'Track list',
     instrumental: 'Instrumental',
     instrumentalNote: 'Instrumental track — no lyrics.',
+    watchOnYouTube: 'Watch on YouTube',
+    videoTitle: 'Video: {{title}}',
     outNow: 'Out now',
     upcoming: 'Coming soon',
     available: 'Available {{date}}',
@@ -66,6 +68,12 @@ export default {
     featured: {
       eyebrow: 'New single',
       tagline: 'Where the end of the world blooms, in a single track.',
+    },
+    paquita: {
+      // Home copy for the Paquita EP — a gamberro, surreal narrative invite.
+      tagline:
+        'She wanted to be an idol. He was already out raising hell. Join the two of them on a surreal journey through their dreams, their fears and a fate that should never have been.',
+      cta: 'Explore the EP',
     },
   },
   footer: {

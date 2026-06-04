@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import ListenLink from '../components/ListenLink'
 import Seo from '../components/Seo'
 import SpotifyEmbed from '../components/SpotifyEmbed'
+import YouTubeEmbed from '../components/YouTubeEmbed'
 import TiltCover from '../components/TiltCover'
 import Tracklist from '../components/Tracklist'
 import NotFound from './NotFound'
@@ -15,6 +16,7 @@ import {
   releaseJsonLd,
   trackNumber,
 } from '../lib/releases'
+import { getNow } from '../lib/clock'
 
 /**
  * A single release page: a wide, brutalist hero (a large tilting cover beside a
@@ -25,7 +27,7 @@ import {
  * View Transition names (there is only ever one cover here), so they morph from —
  * and back to — the matching grid tile when arriving via a `viewTransition` link.
  */
-export default function ReleaseDetail({ now = new Date() }: { now?: Date }) {
+export default function ReleaseDetail({ now = getNow() }: { now?: Date }) {
   const { t } = useTranslation()
   const { lang, slug } = useParams()
   const navigate = useNavigate()
@@ -40,6 +42,7 @@ export default function ReleaseDetail({ now = new Date() }: { now?: Date }) {
 
   const out = isReleased(release, now)
   const num = String(trackNumber(release.slug)).padStart(2, '0')
+  const videoTrack = release.tracks?.find((tr) => tr.video)
 
   return (
     <>
@@ -115,6 +118,13 @@ export default function ReleaseDetail({ now = new Date() }: { now?: Date }) {
                 type="album"
                 id={release.spotifyAlbumId}
                 title={t('releases.playerTitle', { title: release.title })}
+              />
+            )}
+
+            {videoTrack?.video && (
+              <YouTubeEmbed
+                id={videoTrack.video}
+                title={t('releases.videoTitle', { title: videoTrack.title })}
               />
             )}
 

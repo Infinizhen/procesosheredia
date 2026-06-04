@@ -50,6 +50,8 @@ export default {
     tracklist: 'Lista de canciones',
     instrumental: 'Instrumental',
     instrumentalNote: 'Tema instrumental — sin letra.',
+    watchOnYouTube: 'Ver en YouTube',
+    videoTitle: 'Vídeo: {{title}}',
     outNow: 'Ya disponible',
     upcoming: 'Próximamente',
     available: 'Disponible el {{date}}',
@@ -65,6 +67,12 @@ export default {
     featured: {
       eyebrow: 'Nuevo single',
       tagline: 'Donde el fin del mundo florece en un solo tema.',
+    },
+    paquita: {
+      // Home copy for the Paquita EP — a gamberro, surreal narrative invite.
+      tagline:
+        'Ella quería ser idol. Él ya estaba de parranda. Acompaña a estos dos en un viaje surrealista a través de sus sueños, sus miedos y un destino que nunca debió ser.',
+      cta: 'Ver el EP',
     },
   },
   footer: {

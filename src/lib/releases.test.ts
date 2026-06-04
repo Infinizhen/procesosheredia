@@ -11,6 +11,7 @@ import {
   releaseJsonLd,
   trackNumber,
   trackCount,
+  type Release,
 } from './releases'
 
 describe('releases data', () => {
@@ -46,8 +47,8 @@ describe('releases data', () => {
     expect(RELEASES.filter((r) => r.featured)).toHaveLength(1)
   })
 
-  it('getFeaturedRelease returns Lirios del Apocalipsis', () => {
-    expect(getFeaturedRelease()?.slug).toBe('lirios-del-apocalipsis')
+  it('getFeaturedRelease returns the featured EP (Paquita)', () => {
+    expect(getFeaturedRelease()?.slug).toBe('el-increible-viaje-de-paquita')
   })
 
   it('getReleaseBySlug finds a release or returns undefined', () => {
@@ -120,8 +121,16 @@ describe('releases data', () => {
   })
 
   it('omits the Spotify URL in JSON-LD when no album id is known', () => {
-    const paquita = getReleaseBySlug('el-increible-viaje-de-paquita')!
-    expect(releaseJsonLd(paquita).url).toBeUndefined()
+    const noId: Release = {
+      slug: 'no-id',
+      title: 'No Id',
+      date: '2026-01-01',
+      spotifyAlbumId: null,
+      cover: '/covers/no-id.jpg',
+      kind: 'single',
+      featured: false,
+    }
+    expect(releaseJsonLd(noId).url).toBeUndefined()
   })
 
   it('numbers releases chronologically (oldest = 1)', () => {
@@ -165,7 +174,12 @@ describe('releases data', () => {
     ])
     // Reyertas is the instrumental — no lyrics.
     expect(paquita.tracks![2].lyrics).toBeUndefined()
-    expect(paquita.tracks![0].lyrics).toMatch(/Bailando Keipop/)
+    expect(paquita.tracks![0].lyrics).toMatch(/Bailando K-pop/)
+  })
+
+  it('attaches the Ishtar music video', () => {
+    const paquita = getReleaseBySlug('el-increible-viaje-de-paquita')!
+    expect(paquita.tracks![3].video).toBe('TqU2PzJXtEc') // Ishtar
   })
 
   it('trackCount is 1 for a single', () => {

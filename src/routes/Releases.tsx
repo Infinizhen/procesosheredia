@@ -11,6 +11,7 @@ import {
   trackNumber,
   type Release,
 } from '../lib/releases'
+import { getNow } from '../lib/clock'
 
 /**
  * One stage tile. Pulled into its own component so it can call
@@ -86,7 +87,7 @@ function ReleaseTile({
  * decorative (see TiltCover): flat on touch and under reduced motion, and never
  * gates the links, which stay fully keyboard-operable.
  */
-export default function Releases({ now = new Date() }: { now?: Date }) {
+export default function Releases({ now = getNow() }: { now?: Date }) {
   const { t } = useTranslation()
   const { lang } = useParams()
   const locale = isLocale(lang) ? lang : DEFAULT_LOCALE

@@ -7,7 +7,9 @@ describe('i18n routing', () => {
   it('renders the featured release on the Spanish home', async () => {
     renderAt('/es')
     expect(
-      await screen.findByRole('heading', { name: 'Lirios del Apocalipsis' }),
+      await screen.findByRole('heading', {
+        name: 'El increíble viaje de Paquita',
+      }),
     ).toBeInTheDocument()
     expect(
       await screen.findByRole('button', { name: 'Escuchar en Spotify' }),
@@ -82,7 +84,9 @@ describe('i18n routing', () => {
   it('redirects "/" to a localized home', async () => {
     renderAt('/')
     expect(
-      await screen.findByRole('heading', { name: 'Lirios del Apocalipsis' }),
+      await screen.findByRole('heading', {
+        name: 'El increíble viaje de Paquita',
+      }),
     ).toBeInTheDocument()
   })
 
