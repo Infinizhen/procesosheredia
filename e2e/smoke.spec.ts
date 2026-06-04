@@ -8,9 +8,9 @@ test('home (/es) loads with no console errors', async ({ page }) => {
   page.on('pageerror', (err) => errors.push(err.message))
 
   await page.goto('/es')
-  await expect(
-    page.getByRole('heading', { level: 1, name: 'Lirios del Apocalipsis' }),
-  ).toBeVisible()
+  // The home spotlights the featured EP: its cover is the visible hero (the
+  // title is a visually-hidden h1), with the Spotify facade beside it.
+  await expect(page.getByRole('img', { name: /Paquita/i })).toBeVisible()
   await expect(page.getByRole('button', { name: /spotify/i })).toBeVisible()
   expect(errors).toEqual([])
 })
@@ -82,7 +82,5 @@ test('deep-link to /ja works and sets <html lang>', async ({ page }) => {
 test('"/" redirects to a localized home', async ({ page }) => {
   await page.goto('/')
   await expect(page).toHaveURL(/\/(es|en|ja)$/)
-  await expect(
-    page.getByRole('heading', { level: 1, name: 'Lirios del Apocalipsis' }),
-  ).toBeVisible()
+  await expect(page.getByRole('img', { name: /Paquita/i })).toBeVisible()
 })
