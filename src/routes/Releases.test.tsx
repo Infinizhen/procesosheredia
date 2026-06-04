@@ -12,10 +12,10 @@ beforeAll(async () => {
 })
 
 // A data router (createMemoryRouter + RouterProvider), not <MemoryRouter>:
-// Releases now calls `useViewTransitionState`, which requires a data router.
-function renderReleases(now: Date) {
+// Releases calls `useViewTransitionState`, which requires a data router.
+function renderReleases() {
   const router = createMemoryRouter(
-    [{ path: '/:lang/releases', element: <Releases now={now} /> }],
+    [{ path: '/:lang/releases', element: <Releases /> }],
     { initialEntries: ['/es/releases'] },
   )
   return render(<RouterProvider router={router} />)
@@ -23,7 +23,7 @@ function renderReleases(now: Date) {
 
 describe('Releases index', () => {
   it('lists one card per release, each linking to its detail page', () => {
-    renderReleases(new Date('2026-05-30'))
+    renderReleases()
     const links = screen
       .getAllByRole('link')
       .filter((a) => a.getAttribute('href')?.includes('/releases/'))
@@ -33,24 +33,16 @@ describe('Releases index', () => {
     ).toHaveAttribute('href', '/es/releases/lirios-del-apocalipsis')
   })
 
-  it('shows a release date for items already out', () => {
-    renderReleases(new Date('2026-05-30'))
+  it('shows a release date for every item', () => {
+    renderReleases()
     const card = screen
       .getByRole('link', { name: /Lirios del Apocalipsis/ })
       .closest('li')!
-    // Out already → shows a formatted date, not the upcoming badge.
-    expect(within(card).queryByText('Próximamente')).toBeNull()
     expect(within(card).getByText(/2026/)).toBeInTheDocument()
   })
 
-  it('marks a future-dated release as upcoming', () => {
-    renderReleases(new Date('2026-05-30'))
-    const card = screen.getByRole('link', { name: /Paquita/ }).closest('li')!
-    expect(within(card).getByText('Próximamente')).toBeInTheDocument()
-  })
-
   it('orders releases newest-first', () => {
-    renderReleases(new Date('2026-06-30'))
+    renderReleases()
     const titles = screen
       .getAllByRole('link')
       .map((a) => a.textContent ?? '')

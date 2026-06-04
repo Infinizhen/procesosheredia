@@ -4,7 +4,6 @@ import {
   getFeaturedRelease,
   getReleaseBySlug,
   releasesByDateDesc,
-  isReleased,
   spotifyAlbumUrl,
   spotifyAlbumEmbedUrl,
   formatReleaseDate,
@@ -63,17 +62,6 @@ describe('releases data', () => {
     const dates = releasesByDateDesc().map((r) => r.date)
     expect(dates).toEqual([...dates].sort((a, b) => b.localeCompare(a)))
     expect(RELEASES).toEqual(before)
-  })
-
-  it('isReleased compares the announced date against a given "now"', () => {
-    const lirios = getReleaseBySlug('lirios-del-apocalipsis')!
-    expect(isReleased(lirios, new Date('2026-05-30'))).toBe(true)
-    expect(isReleased(lirios, new Date('2026-01-01'))).toBe(false)
-  })
-
-  it('treats a future-dated release as not yet released', () => {
-    const paquita = getReleaseBySlug('el-increible-viaje-de-paquita')!
-    expect(isReleased(paquita, new Date('2026-05-30'))).toBe(false)
   })
 
   it('builds Spotify album URLs from an id', () => {

@@ -6,12 +6,10 @@ import TiltCover from '../components/TiltCover'
 import { DEFAULT_LOCALE, isLocale, type LocaleCode } from '../i18n/locales'
 import {
   formatReleaseDate,
-  isReleased,
   releasesByDateDesc,
   trackNumber,
   type Release,
 } from '../lib/releases'
-import { getNow } from '../lib/clock'
 
 /**
  * One stage tile. Pulled into its own component so it can call
@@ -23,14 +21,11 @@ import { getNow } from '../lib/clock'
 function ReleaseTile({
   release,
   locale,
-  now,
 }: {
   release: Release
   locale: LocaleCode
-  now: Date
 }) {
   const { t } = useTranslation()
-  const out = isReleased(release, now)
   const num = String(trackNumber(release.slug)).padStart(2, '0')
   const to = `/${locale}/releases/${release.slug}`
   const morphing = useViewTransitionState(to)
@@ -39,7 +34,7 @@ function ReleaseTile({
     : undefined
 
   return (
-    <li className={`tile ${out ? 'tile--out' : 'tile--soon'}`}>
+    <li className="tile tile--out">
       <Link
         to={to}
         className="tile__link"
@@ -50,29 +45,18 @@ function ReleaseTile({
           className="tile__art"
           src={release.cover}
           alt={t('releases.coverAlt', { title: release.title })}
-          dim={!out}
           viewTransitionName={morphing ? 'release-cover' : undefined}
         >
           <span className="tile__num" aria-hidden="true" style={numStyle}>
             {num}
           </span>
           <span className="tile__scrim" aria-hidden="true" />
-          <span className="tile__cta">
-            {out
-              ? `▸ ${t('releases.viewRelease')}`
-              : formatReleaseDate(release.date, locale)}
-          </span>
+          <span className="tile__cta">▸ {t('releases.viewRelease')}</span>
         </TiltCover>
         <span className="tile__meta">
           <span className="tile__title">{release.title}</span>
           <span className="tile__date">
-            {out ? (
-              formatReleaseDate(release.date, locale)
-            ) : (
-              <span className="badge badge--upcoming">
-                {t('releases.upcoming')}
-              </span>
-            )}
+            {formatReleaseDate(release.date, locale)}
           </span>
         </span>
       </Link>
@@ -82,12 +66,12 @@ function ReleaseTile({
 
 /**
  * Releases — a "track-select" stage. Big cover tiles that tilt in 3D under the
- * pointer, numbered like a game's level select, newest first. Released tiles
- * open the detail page; upcoming tiles read as "locked". The motion is purely
- * decorative (see TiltCover): flat on touch and under reduced motion, and never
- * gates the links, which stay fully keyboard-operable.
+ * pointer, numbered like a game's level select, newest first. Each tile opens
+ * its detail page. The motion is purely decorative (see TiltCover): flat on
+ * touch and under reduced motion, and never gates the links, which stay fully
+ * keyboard-operable.
  */
-export default function Releases({ now = getNow() }: { now?: Date }) {
+export default function Releases() {
   const { t } = useTranslation()
   const { lang } = useParams()
   const locale = isLocale(lang) ? lang : DEFAULT_LOCALE
@@ -108,7 +92,7 @@ export default function Releases({ now = getNow() }: { now?: Date }) {
 
         <ul className="stage">
           {releases.map((r) => (
-            <ReleaseTile key={r.slug} release={r} locale={locale} now={now} />
+            <ReleaseTile key={r.slug} release={r} locale={locale} />
           ))}
         </ul>
       </main>

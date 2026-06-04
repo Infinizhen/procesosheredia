@@ -346,12 +346,6 @@ export function trackNumber(slug: string): number {
   return chrono.findIndex((r) => r.slug === slug) + 1
 }
 
-/** Whether a release's announced date is on or before `now`. */
-export function isReleased(release: Release, now: Date): boolean {
-  // Compare date-only (UTC midnight) so a release counts from its calendar day.
-  return new Date(`${release.date}T00:00:00Z`).getTime() <= now.getTime()
-}
-
 /** Public Spotify album page URL for an id. */
 export function spotifyAlbumUrl(id: string): string {
   return `https://open.spotify.com/album/${id}`

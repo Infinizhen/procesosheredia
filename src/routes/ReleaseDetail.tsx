@@ -12,11 +12,9 @@ import { ARTIST_NAME } from '../lib/seo'
 import {
   formatReleaseDate,
   getReleaseBySlug,
-  isReleased,
   releaseJsonLd,
   trackNumber,
 } from '../lib/releases'
-import { getNow } from '../lib/clock'
 
 /**
  * A single release page: a wide, brutalist hero (a large tilting cover beside a
@@ -27,7 +25,7 @@ import { getNow } from '../lib/clock'
  * View Transition names (there is only ever one cover here), so they morph from —
  * and back to — the matching grid tile when arriving via a `viewTransition` link.
  */
-export default function ReleaseDetail({ now = getNow() }: { now?: Date }) {
+export default function ReleaseDetail() {
   const { t } = useTranslation()
   const { lang, slug } = useParams()
   const navigate = useNavigate()
@@ -40,7 +38,6 @@ export default function ReleaseDetail({ now = getNow() }: { now?: Date }) {
     return <NotFound />
   }
 
-  const out = isReleased(release, now)
   const num = String(trackNumber(release.slug)).padStart(2, '0')
   const videoTrack = release.tracks?.find((tr) => tr.video)
 
@@ -77,7 +74,6 @@ export default function ReleaseDetail({ now = getNow() }: { now?: Date }) {
             className="release__art"
             src={release.cover}
             alt={t('releases.coverAlt', { title: release.title })}
-            dim={!out}
             viewTransitionName="release-cover"
           >
             <span
@@ -95,25 +91,11 @@ export default function ReleaseDetail({ now = getNow() }: { now?: Date }) {
             </p>
             <h1>{release.title}</h1>
 
-            {out ? (
-              <p className="release__date">
-                {t('releases.outNow')} ·{' '}
-                {formatReleaseDate(release.date, locale)}
-              </p>
-            ) : (
-              <p className="release__date release__date--soon">
-                <span className="badge badge--upcoming">
-                  {t('releases.upcoming')}
-                </span>
-                <span className="release__available">
-                  {t('releases.available', {
-                    date: formatReleaseDate(release.date, locale),
-                  })}
-                </span>
-              </p>
-            )}
+            <p className="release__date">
+              {t('releases.outNow')} · {formatReleaseDate(release.date, locale)}
+            </p>
 
-            {out && release.spotifyAlbumId && (
+            {release.spotifyAlbumId && (
               <SpotifyEmbed
                 type="album"
                 id={release.spotifyAlbumId}
@@ -128,9 +110,7 @@ export default function ReleaseDetail({ now = getNow() }: { now?: Date }) {
               />
             )}
 
-            {release.smartLink && (
-              <ListenLink href={release.smartLink} out={out} />
-            )}
+            {release.smartLink && <ListenLink href={release.smartLink} />}
           </div>
         </section>
 
