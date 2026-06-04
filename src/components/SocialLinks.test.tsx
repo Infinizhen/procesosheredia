@@ -5,7 +5,7 @@ import SocialLinks from './SocialLinks'
 describe('SocialLinks', () => {
   it('links each profile with an accessible name and safe target', () => {
     render(<SocialLinks />)
-    for (const name of ['Spotify', 'Instagram', 'TikTok']) {
+    for (const name of ['Spotify', 'YouTube', 'Instagram', 'TikTok']) {
       const link = screen.getByRole('link', { name: new RegExp(name, 'i') })
       expect(link).toHaveAttribute('target', '_blank')
       expect(link).toHaveAttribute('rel', expect.stringContaining('noopener'))
